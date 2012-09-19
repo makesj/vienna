@@ -1,0 +1,10 @@
+﻿{
+    "type": "ninja",
+    "components": {
+        "script": {
+            "object": "actors/ninja.rb",
+            "constructor": "add_actor",
+            "destructor": "on_destroy"
+        }
+    }
+}

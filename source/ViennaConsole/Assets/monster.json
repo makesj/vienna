@@ -1,0 +1,8 @@
+﻿{
+    "type": "monster",
+    "components": {
+        "transform": {
+            "postion": [0,0]
+        }
+    }
+}
