@@ -34,20 +34,31 @@ namespace Vienna.Eventing
 
         public bool AddListener<T>(long eventType, GameEventHandler<T> eventHandler) where T : class, IEventData
         {
+            Logger.Debug("Events: Trying to add delegate function for event type: {0}", eventType);
+
             if (!EventDelegateMap.ContainsKey(eventType))
             {
                 EventDelegateMap.Add(eventType, new List<MulticastDelegate>());
             }
 
-            if (EventDelegateMap[eventType].Contains(eventHandler)) return false;
+            if (EventDelegateMap[eventType].Contains(eventHandler))
+            {
+                Logger.Warn("Attempting to double-register a delegate");
+                return false;
+            }
+                
 
             EventDelegateMap[eventType].Add(eventHandler);
+            Logger.Debug("Events: Successfully added delegate for event type: {0}", eventType);
+
             return true;
         }
 
         public bool RemoveListener<T>(long eventType, GameEventHandler<T> eventHandler) where T : class, IEventData
         {
             var success = false;
+
+            Logger.Debug("Events: Attempting to remove delegate function from event type: {0}", eventType);
 
             if (EventDelegateMap.ContainsKey(eventType))
             {
@@ -60,6 +71,9 @@ namespace Vienna.Eventing
                     if (item != eventHandler) continue;
 
                     eventListeners.RemoveAt(i);
+                    if (eventListeners.Count == 0) EventDelegateMap.Remove(eventType);
+                    Logger.Debug("Events: Successfully removed delegate function from event type: {0}", eventType);
+
                     success = true;
                     break;
                 }
@@ -70,7 +84,9 @@ namespace Vienna.Eventing
 
         public bool TriggerEvent(IEventData eventData)
         {
-            var success = false;
+            var processed = false;
+
+            Logger.Debug("Events: Attempting to trigger event {0}", eventData.Name);
 
             // TODO: Process the active queue.
 
@@ -78,24 +94,31 @@ namespace Vienna.Eventing
             {
                 foreach (var eventDelegate in EventDelegateMap[eventData.EventType])
                 {
+                    Logger.Debug("Events: Sending Event {0} to delegate.", eventData.Name);
                     eventDelegate.DynamicInvoke(eventData);
-                    success = true;
+                    processed = true;
                 }
             }
 
-            return success;
+            return processed;
         }
 
         public bool QueueEvent(IEventData eventData)
         {
             var success = false;
 
+            Logger.Debug("Events: Attempting to queue event: {0}", eventData.Name);
+
             if (EventDelegateMap.ContainsKey(eventData.EventType))
             {
                 // TODO: Implement active queuing.
-
                 EventQueue.Add(eventData);
+                Logger.Debug("Events: Successfully queued event: {0}", eventData.Name);
                 success = true;
+            }
+            else
+            {
+                Logger.Debug("Events: Skipping event since there are no delegates registered to receive it: {0}", eventData.Name);
             }
 
             return success;
@@ -124,28 +147,33 @@ namespace Vienna.Eventing
         {
             var success = false;
 
-            var currentMilliseconds = DateTime.Now.Ticks;
+            var currentMilliseconds = GetTicks();
             var maxMs = (maxMilliseconds == INFINITE) 
                 ? INFINITE : currentMilliseconds + maxMilliseconds;
 
             // TODO: Process the active queue.
+            Logger.Debug("Event Loop: Processing event queue; {0} events to process.", EventQueue.Count);
+
             while (EventQueue.Count > 0)
             {
+                Logger.Debug("Event Loop: Processing Event {0}", EventQueue[0].Name);
                 if (EventDelegateMap.ContainsKey(EventQueue[0].EventType))
                 {
+                    Logger.Debug("Event Loop: Found {0} delegates", EventDelegateMap[EventQueue[0].EventType].Count);
                     foreach (var eventDelegate in EventDelegateMap[EventQueue[0].EventType])
                     {
+                        Logger.Debug("Event Loop: Sending event {0} to delegate", EventQueue[0].Name);
                         eventDelegate.DynamicInvoke(EventQueue[0]);
+                        EventQueue.RemoveAt(0);
                         success = true;
                     }
                 }
 
-                EventQueue.RemoveAt(0);
-
-                currentMilliseconds = DateTime.Now.Ticks;
+                currentMilliseconds = GetTicks();
 
                 if (maxMilliseconds != INFINITE && currentMilliseconds >= maxMs)
                 {
+                    Logger.Debug("Event Loop: Aborting event processing; time ran out");
                     break;
                 }
             }
@@ -159,6 +187,12 @@ namespace Vienna.Eventing
             // TODO: Set the queue to the next queue.
 
             return success;
+        }
+
+        // TODO: Move this to a helper.
+        public long GetTicks()
+        {
+            return DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         }
     }
 }

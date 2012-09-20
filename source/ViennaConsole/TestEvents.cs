@@ -14,12 +14,11 @@ namespace ViennaConsole
         public void Execute()
         {
             var newActorEvent = new EventData_New_Actor(1, 1);
-            var newActorEvent2 = new EventData_New_Actor(2, 1);
 
             // Testing immediate trigger of event.
             TriggerNewActorHandler = HandleTriggerNewActor;
             EventManager.Instance.AddListener(EventData_New_Actor.Type, TriggerNewActorHandler);
-            
+
             Logger.Debug("One event should fire.");
             EventManager.Instance.TriggerEvent(newActorEvent);
 
@@ -30,18 +29,13 @@ namespace ViennaConsole
             QueueNewActorHandler = HandleQueueNewActor;
             EventManager.Instance.AddListener(EventData_New_Actor.Type, QueueNewActorHandler);
 
-            Logger.Debug("A bunch of events should fire.");
-            EventManager.Instance.QueueEvent(newActorEvent);
-            EventManager.Instance.QueueEvent(newActorEvent2);
-            EventManager.Instance.QueueEvent(newActorEvent2);
-            EventManager.Instance.QueueEvent(newActorEvent2);
-            EventManager.Instance.QueueEvent(newActorEvent2);
-            EventManager.Instance.QueueEvent(newActorEvent2);
-            EventManager.Instance.QueueEvent(newActorEvent2);
-            EventManager.Instance.QueueEvent(newActorEvent2);
-            EventManager.Instance.QueueEvent(newActorEvent2);
-            EventManager.Instance.QueueEvent(newActorEvent2);
-            EventManager.Instance.Update(2000);
+            for (var i = 0; i < 5; i++)
+            {
+                EventManager.Instance.QueueEvent(newActorEvent);
+            }
+
+            Logger.Debug("5 events should fire.");
+            EventManager.Instance.Update(1000);
 
             EventManager.Instance.RemoveListener(EventData_New_Actor.Type, QueueNewActorHandler);
             QueueNewActorHandler = null;
