@@ -75,6 +75,7 @@
     <Compile Include="TestProcess.cs" />
     <Compile Include="TestResources.cs" />
     <Compile Include="TestScripting.cs" />
+    <Compile Include="TestScriptProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vienna\Vienna.csproj">
@@ -84,17 +85,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Assets\monster.json" />
-    <None Include="Scripts\PrintNumbersProcess.rb" />
-    <None Include="Assets\ninja.json" />
-    <None Include="Scripts\TestScript.rb" />
+    <None Include="Assets\monster.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\CoreLibrary.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\PrintNumbersProcess.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\ninja.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\TestScript.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\ninja.xml" />
+    <Content Include="Assets\ninja.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-	<PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
+    <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

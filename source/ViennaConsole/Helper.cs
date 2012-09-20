@@ -17,7 +17,7 @@ namespace ViennaConsole
         public static string GetExecutionPath()
         {
             var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            return new DirectoryInfo(System.IO.Path.GetDirectoryName(location)).Parent.Parent.FullName;
+            return new DirectoryInfo(System.IO.Path.GetDirectoryName(location)).FullName;
         }
 
         public static string GetFilePath(string path)

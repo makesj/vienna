@@ -1,4 +1,5 @@
-﻿using Vienna.Processes;
+﻿using System;
+using Vienna.Processes;
 
 namespace Vienna.Scripting
 {
@@ -6,32 +7,45 @@ namespace Vienna.Scripting
     {
         protected int Frequency { get; set; }
         protected int Time { get; set; }
-        protected string InitFunction { get; set; }
-        protected string UpdateFunction { get; set; }
-        protected string SuccessFunction { get; set; }
-        protected string FailFunction { get; set; }
-        protected string AbortFunction { get; set; }
         protected dynamic ScriptObject { get; set; }
         
-        public void RegisterScriptClass()
+        public void RegisterScriptClass(string path, string className)
         {
+            try
+            {
+                ScriptManager.Instance.ExecuteFile(path);
+                ScriptObject = ScriptManager.Instance.GetInstance(className, this);
+            }
+            catch (Exception ex)
+            {
+                Logger.Debug("Could not create script process -> {0}", ex.Message);
+                Fail();
+            }          
         }
 
-        //alias functions for when working in script
-        public bool is_alive() { return IsAlive; }
-        public bool is_dead() { return IsDead; }
-        public bool is_paused() { return IsPaused; }
-
-        // This wrapper function is needed so we can translate a script 
-        //object to a regular CLR object.
-        public void attach_child(dynamic child)
+        public void AttachChildFromScript(dynamic child)
         {
 
         }
 
         public override void OnAbort()
         {
-            
+            ScriptObject.on_abort();
+        }
+
+        public override void  OnFail()
+        {
+            ScriptObject.on_fail();
+        }
+
+        public override void OnSuccess()
+        {
+            ScriptObject.on_success();
+        }
+
+        public override void OnUpdate(long delta)
+        {
+            ScriptObject.on_update(delta);
         }
     }
 }
