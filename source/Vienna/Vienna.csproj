@@ -76,6 +76,8 @@
     <Compile Include="Actors\ScriptComponent.cs" />
     <Compile Include="Actors\TransformComponent.cs" />
     <Compile Include="Audio\Audio.cs" />
+    <Compile Include="Audio\DirectSoundAudio.cs" />
+    <Compile Include="Audio\DirectSoundAudioBuffer.cs" />
     <Compile Include="Audio\IAudio.cs" />
     <Compile Include="Audio\IAudioBuffer.cs" />
     <Compile Include="Logger.cs" />

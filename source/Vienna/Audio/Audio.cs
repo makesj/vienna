@@ -3,77 +3,81 @@ using System.Collections.Generic;
 using Vienna.Audio;
 using Vienna.Resources;
 
-public abstract class Audio : IAudio
+namespace Vienna.Audio
 {
-    public Audio()
+    public abstract class Audio : IAudio
     {
-        AllPaused = false;
-        Initialied = false;
-    }
-
-    ~Audio()
-    {
-        Shutdown();
-    }
-
-
-    static bool HasSoundCard()
-    {
-        return true;
-    }
-
-    protected IList<IAudioBuffer> AudioBufferList;
-    protected bool AllPaused;
-    protected bool Initialied;
-
-    bool IsPaused()
-    {
-        return AllPaused;
-    }
-
-    #region IAudio
-    public abstract IAudioBuffer InitAudioBuffer(Resource handle);
-
-    public abstract void ReleaseAudioBuffer(IAudioBuffer audioBuffer);
-
-    public abstract bool Initialize(object hWnd);
-
-    public void StopAllSounds()
-    {
-        foreach (var audioBuffer in AudioBufferList)
+        public Audio()
         {
-            audioBuffer.Stop();
-        }
-        AllPaused = false;
-    }
-
-    public void PauseAllSounds()
-    {
-        foreach (var audioBuffer in AudioBufferList)
-        {
-            audioBuffer.Pause();
-        }
-        AllPaused = true;
-    }
-
-    public void ResumeAllSounds()
-    {
-        foreach (var audioBuffer in AudioBufferList)
-        {
-            audioBuffer.Resume();
-        }
-        AllPaused = false;
-    }
-
-    public void Shutdown()
-    {
-        for (int i = 0, j = AudioBufferList.Count; i < j; i++)
-        {
-            var buffer = AudioBufferList[i];
-            buffer.Stop();
-            AudioBufferList.RemoveAt(0);
+            AllPaused = false;
+            Initialized = false;
+            AllSamples = new List<IAudioBuffer>();
         }
 
+        ~Audio()
+        {
+            Shutdown();
+        }
+
+
+        static bool HasSoundCard()
+        {
+            return true;
+        }
+
+        protected IList<IAudioBuffer> AllSamples;
+        protected bool AllPaused;
+        protected bool Initialized;
+
+        bool IsPaused()
+        {
+            return AllPaused;
+        }
+
+        #region IAudio
+        public abstract IAudioBuffer InitAudioBuffer(Resource handle);
+
+        public abstract void ReleaseAudioBuffer(IAudioBuffer audioBuffer);
+
+        public abstract bool Initialize(object hWnd);
+
+        public void StopAllSounds()
+        {
+            foreach (var audioBuffer in AllSamples)
+            {
+                audioBuffer.Stop();
+            }
+            AllPaused = false;
+        }
+
+        public void PauseAllSounds()
+        {
+            foreach (var audioBuffer in AllSamples)
+            {
+                audioBuffer.Pause();
+            }
+            AllPaused = true;
+        }
+
+        public void ResumeAllSounds()
+        {
+            foreach (var audioBuffer in AllSamples)
+            {
+                audioBuffer.Resume();
+            }
+            AllPaused = false;
+        }
+
+        public void Shutdown()
+        {
+            for (int i = 0, j = AllSamples.Count; i < j; i++)
+            {
+                var buffer = AllSamples[i];
+                buffer.Stop();
+                AllSamples.RemoveAt(0);
+            }
+
+        }
+        #endregion IAudio
     }
-    #endregion IAudio
 }

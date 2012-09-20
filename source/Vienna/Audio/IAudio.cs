@@ -1,15 +1,20 @@
 ﻿using Vienna.Audio;
 using Vienna.Resources;
-public interface IAudio
+
+namespace Vienna.Audio
 {
-    IAudioBuffer InitAudioBuffer(Resource handle);
-    void ReleaseAudioBuffer(IAudioBuffer audioBuffer);
 
-    void StopAllSounds();
-    void PauseAllSounds();
-    void ResumeAllSounds();
+    public interface IAudio
+    {
+        IAudioBuffer InitAudioBuffer(Resource handle);
+        void ReleaseAudioBuffer(IAudioBuffer audioBuffer);
 
-    bool Initialize(object hWnd);
+        void StopAllSounds();
+        void PauseAllSounds();
+        void ResumeAllSounds();
 
-    void Shutdown();
+        bool Initialize(object hWnd);
+
+        void Shutdown();
+    }
 }
