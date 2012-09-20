@@ -6,13 +6,12 @@ namespace Vienna.Scripting
     {
         protected int Frequency { get; set; }
         protected int Time { get; set; }
-
-        protected dynamic InitFunction { get; set; }
-        protected dynamic UpdateFunction { get; set; }
-        protected dynamic SuccessFunction { get; set; }
-        protected dynamic FailFunction { get; set; }
-        protected dynamic AbortFunction { get; set; }
-        protected dynamic Self { get; set; }
+        protected string InitFunction { get; set; }
+        protected string UpdateFunction { get; set; }
+        protected string SuccessFunction { get; set; }
+        protected string FailFunction { get; set; }
+        protected string AbortFunction { get; set; }
+        protected dynamic ScriptObject { get; set; }
         
         public void RegisterScriptClass()
         {

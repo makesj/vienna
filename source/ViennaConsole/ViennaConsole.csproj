@@ -81,6 +81,7 @@
     <None Include="Assets\monster.json" />
     <None Include="Scripts\PrintNumbersProcess.rb" />
     <None Include="Assets\ninja.json" />
+    <None Include="Scripts\TestScript.rb" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\ninja.xml" />

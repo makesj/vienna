@@ -1,30 +1,30 @@
-﻿class PrintNumbersProcess
-
-    def initialize()
+﻿class Process
     
-        puts "initialize"    
-    
+    def on_init
     end
-
-    def add_actor(actor)
     
-        puts "add_actor #{actor}"
-        return "gggg"
+    def on_update(delta) 
     end
-
-    def destory_actor(actor)
     
-        puts "destory_actor"
+    def on_success
+    end
     
+    def on_fail
+    end
+    
+    def on_abort
     end
 
 end
 
+class PrintNumbersProcess < Process
 
-def some_method
-    puts "some_method"
-end
+    def initialize()    
+        puts "initialize"       
+    end
 
-def some_other_method(a, b)
-    puts "some_method #{a} #{b}"
+    def init()
+        puts "init override"
+    end
+
 end
