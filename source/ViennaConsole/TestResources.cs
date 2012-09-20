@@ -4,6 +4,7 @@ using Vienna.Resources;
 
 namespace ViennaConsole
 {
+    [TestCase(CaseNumber = 4)]
     public class TestResources
     {
         public void Execute()

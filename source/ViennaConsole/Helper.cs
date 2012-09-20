@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using Vienna;
 
@@ -57,4 +60,55 @@ namespace ViennaConsole
             }
         }
     }
+
+    public class TestCaseAttribute : Attribute
+    {
+        public int CaseNumber { get; set; }
+    }
+
+    public class TestCaseSelector
+    {
+        protected List<Type> TestCases;
+
+        public TestCaseSelector()
+        {
+            var map = Assembly.GetExecutingAssembly().GetTypesWithAttribute<TestCaseAttribute>();
+            var myList = map.ToList();
+            myList.Sort((firstPair, nextPair) => firstPair.Value.CaseNumber.CompareTo(nextPair.Value.CaseNumber));
+            TestCases = myList.Select(x => x.Key).ToList();
+        }
+
+        public void PrintSelection()
+        {
+            Console.WriteLine("Choose Wisely:\n");
+            for (var i = 0; i < TestCases.Count; i++)
+            {
+                Console.WriteLine("{0} - {1}", i + 1, TestCases[i].Name);
+            }
+            if (TestCases.Count == 0)
+            {
+                Console.WriteLine("Nothing to see here.");
+            }
+            Console.Write("\nSelection: ");
+        }
+
+        public void Select(string input)
+        {
+            int number;
+            int.TryParse(input, NumberStyles.Integer, null, out number);
+
+            if (number == 0 || number > TestCases.Count)
+            {
+                Console.WriteLine("You chose... poorly");
+                return;
+            }
+
+            Console.Clear();
+
+            var type = TestCases[number - 1];
+            dynamic obj = Activator.CreateInstance(type);
+            obj.Execute();
+        }
+    }
+
 }

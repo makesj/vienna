@@ -4,11 +4,12 @@ using Vienna.Scripting;
 
 namespace ViennaConsole
 {
+    [TestCase(CaseNumber = 5)]
     public class TestScripting
     {
         public void Execute()
         {
-            var path = Helper.GetFilePath("scripts/PrintNumbersProcess.rb");
+            var path = Helper.GetFilePath("Scripts/PrintNumbersProcess.rb");
             ScriptManager.Instance.ExecuteFile(path);
 
             var o = ScriptManager.Instance.GetInstance("PrintNumbersProcess");

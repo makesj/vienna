@@ -8,18 +8,17 @@ namespace ViennaConsole
         {
             try
             {
-                //new TestActors().Execute();
-                new TestScripting().Execute();
-                //new TestResources().Execute();
-                //new TestEvents().Execute();
-                //new TestProcess().Execute();
+                var selector = new TestCaseSelector();
+                selector.PrintSelection();
+                var input = Console.ReadLine();
+                selector.Select(input);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
 
-            Console.WriteLine("\ndone");
+            Console.WriteLine("\n\ndone");
             Console.Read();
         }
     }

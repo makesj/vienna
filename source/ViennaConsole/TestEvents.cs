@@ -1,6 +1,7 @@
 ﻿
 namespace ViennaConsole
 {
+    [TestCase(CaseNumber = 2)]
     public class TestEvents
     {
 

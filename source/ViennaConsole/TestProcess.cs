@@ -2,6 +2,7 @@
 
 namespace ViennaConsole
 {
+    [TestCase(CaseNumber = 3)]
     public class TestProcess
     {
         protected ProcessManager Manager = new ProcessManager();

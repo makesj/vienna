@@ -3,10 +3,12 @@ using Vienna.Actors;
 
 namespace ViennaConsole
 {
+    [TestCase(CaseNumber = 1)]
     public class TestActors
     {
         public void Execute()
         {
+            Logger.Debug("gggg");
             //var text = Helper.LoadFile("assets/monster.json");
             //var factory = new Actor.Factory();
 

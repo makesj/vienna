@@ -1,0 +1,12 @@
+﻿<Actor type="Teapot" resource="actors\player_teapot.xml">
+
+    <TransformComponent>
+        <Position x="0" y="5" />
+    </TransformComponent>
+
+    <ScriptComponent>
+        <ScriptObject constructor="AddPlayer" destructor="RemovePlayer" />
+        <ScriptData actorType="Teapot" />
+    </ScriptComponent>
+
+</Actor>
