@@ -144,7 +144,7 @@ namespace Vienna.Eventing
 
                 currentMilliseconds = DateTime.Now.Ticks;
 
-                if (maxMilliseconds != INFINITE && currentMilliseconds > maxMs)
+                if (maxMilliseconds != INFINITE && currentMilliseconds >= maxMs)
                 {
                     break;
                 }
