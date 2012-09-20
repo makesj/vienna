@@ -13,9 +13,9 @@ namespace Vienna.SharpScript
             _proxy = proxy;
         }
 
-        public string ProxyDomain
+        public string ProxyContext
         {
-            get { return _proxy.ProxyDomain; }
+            get { return _proxy.ProxyContext; }
         }
 
         public object InvokeMethod(string methodName, object[] args)

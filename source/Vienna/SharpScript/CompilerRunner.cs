@@ -48,13 +48,6 @@ namespace Vienna.SharpScript
             return this.assembly != null;
         }
 
-        public object Run(string typeName, string methodName, object[] args)
-        {
-            var type = this.assembly.GetType(typeName);
-
-            return type.InvokeMember(methodName, BindingFlags.InvokeMethod, null, assembly, args);
-        }
-
         public ScriptProxy Activate(string typeName, object[] args)
         {
             var type = this.assembly.GetType(typeName);
@@ -66,11 +59,6 @@ namespace Vienna.SharpScript
 
             var x = Activator.CreateInstance(type, args);
             return new ScriptProxy(x);
-        }
-
-        public void Inject(ScriptProxy proxy)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -8,35 +8,71 @@ namespace Vienna.SharpScript
         public Type Type { get; set; } 
         public Object Instance { get; set; }
 
-        public string ProxyDomain
+        public string ProxyContext
         {
             get { return AppDomain.CurrentDomain.FriendlyName; }
         }
 
-        public ScriptProxy(object wrap)
+        public ScriptProxy(object instance)
         {
-            Type = wrap.GetType();
-            Instance = wrap;
+            Type = instance.GetType();
+            Instance = instance;
         }
 
         public object InvokeMethod(string methodName, object[] args)
         {
-            return Type.InvokeMember(methodName, BindingFlags.InvokeMethod, null, Instance, args);   
+            try
+            {
+                return Type.InvokeMember(methodName, BindingFlags.InvokeMethod, null, Instance, args);
+            }
+            catch (TargetInvocationException ex)
+            {
+                LogError(ex, methodName);
+                throw;
+            }
         }
 
         public object GetProperty(string propertyName)
         {
-            return Type.InvokeMember(propertyName, BindingFlags.GetProperty, null, Instance, null);   
+            try
+            {
+                return Type.InvokeMember(propertyName, BindingFlags.GetProperty, null, Instance, null);   
+            }
+            catch (TargetInvocationException ex)
+            {
+                LogError(ex, propertyName);
+                throw;
+            }
         }
 
         public object SetProperty(string propertyName, object value)
         {
-            return Type.InvokeMember(propertyName, BindingFlags.SetProperty, null, Instance, new[]{value});
+            try
+            {
+                return Type.InvokeMember(propertyName, BindingFlags.SetProperty, null, Instance, new[] { value });
+            }
+            catch (TargetInvocationException ex)
+            {
+                LogError(ex, propertyName);
+                throw;
+            }
         }
 
-        public DynamicScriptProxy AsDynamic()
+        private void LogError(Exception ex, string target)
         {
-            return new DynamicScriptProxy(this);
+            Logger.Error("{0}.{1} - Exception! ", Type.Name, target, ex.Message);
+
+            var inner = ex;
+            while (inner != null)
+            {
+                Logger.Log(inner.Message);
+
+                if (inner.InnerException == null)
+                {
+                    Logger.Log(inner.StackTrace);
+                }
+                inner = inner.InnerException;
+            }
         }
     }
 }

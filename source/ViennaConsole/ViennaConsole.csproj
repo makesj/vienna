@@ -75,6 +75,7 @@
     <Compile Include="TestScripting.cs" />
     <Compile Include="TestScriptProcess.cs" />
     <Compile Include="TestSharpScript.cs" />
+    <Compile Include="TestSharpScript2.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vienna\Vienna.csproj">

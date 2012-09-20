@@ -94,9 +94,10 @@
     <Compile Include="SharpScript\CompilerRunner.cs" />
     <Compile Include="SharpScript\DynamicScriptProxy.cs" />
     <Compile Include="SharpScript\ScriptProxy.cs" />
+    <Compile Include="SharpScript\SharpScriptCompiler.cs" />
+    <Compile Include="SharpScript\SharpScriptMarshaller.cs" />
     <Compile Include="SharpScript\SharpScriptContext.cs" />
-    <Compile Include="SharpScript\SharpScriptEnvironment.cs" />
-    <Compile Include="SharpScript\SharpScriptManager.cs" />
+    <Compile Include="SharpScript\SharpScriptContextManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Audio\" />
