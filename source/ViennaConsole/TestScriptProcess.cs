@@ -3,7 +3,7 @@ using Vienna.Scripting;
 
 namespace ViennaConsole
 {
-    [TestCase(CaseNumber = 6)]
+    [TestCase(CaseNumber = 7)]
     public class TestScriptProcess
     {
         protected ProcessManager ProcessManager = new ProcessManager();
@@ -14,7 +14,6 @@ namespace ViennaConsole
             ScriptManager.Instance.AddSearchPaths(new [] { searchPath });
 
             var path = Helper.GetFilePath("Scripts/PrintNumbersProcess.rb");
-
             var script = new ScriptProcess();
             script.RegisterScriptClass(path, "PrintNumbersProcess");
 
