@@ -75,6 +75,9 @@
     <Compile Include="Actors\IComponent.cs" />
     <Compile Include="Actors\ScriptComponent.cs" />
     <Compile Include="Actors\TransformComponent.cs" />
+    <Compile Include="Eventing\GameEventHandler.cs" />
+    <Compile Include="Eventing\IEventData.cs" />
+    <Compile Include="Eventing\IEventManager.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Processes\DelayProcess.cs" />
     <Compile Include="Processes\ProcessCounter.cs" />
@@ -105,6 +108,6 @@
   <Target Name="AfterBuild">
   </Target>
   <PropertyGroup>
-	<PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
+    <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
   </PropertyGroup>
 </Project>
