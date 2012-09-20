@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Vienna.Eventing
+﻿namespace Vienna.Eventing
 {
     public interface IEventData
     {
+        long EventType { get; }
+        string Name { get; }
+        float Timestamp { get; }
     }
 }

@@ -75,6 +75,8 @@
     <Compile Include="Actors\IComponent.cs" />
     <Compile Include="Actors\ScriptComponent.cs" />
     <Compile Include="Actors\TransformComponent.cs" />
+    <Compile Include="Eventing\EventManager.cs" />
+    <Compile Include="Eventing\Events\EventData_New_Actor.cs" />
     <Compile Include="Eventing\GameEventHandler.cs" />
     <Compile Include="Eventing\IEventData.cs" />
     <Compile Include="Eventing\IEventManager.cs" />
