@@ -85,6 +85,10 @@ packages
 csx
 *.build.csdef
 
+# Mono Files
+*.pidb
+*.userprefs
+
 # Others
 [Bb]in
 [Oo]bj
