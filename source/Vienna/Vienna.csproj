@@ -75,6 +75,9 @@
     <Compile Include="Actors\IComponent.cs" />
     <Compile Include="Actors\ScriptComponent.cs" />
     <Compile Include="Actors\TransformComponent.cs" />
+    <Compile Include="Audio\Audio.cs" />
+    <Compile Include="Audio\IAudio.cs" />
+    <Compile Include="Audio\IAudioBuffer.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Processes\DelayProcess.cs" />
     <Compile Include="Processes\ProcessCounter.cs" />
@@ -93,9 +96,7 @@
     <Compile Include="Scripting\ScriptManager.cs" />
     <Compile Include="Scripting\ScriptProcess.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Audio\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -105,6 +106,6 @@
   <Target Name="AfterBuild">
   </Target>
   <PropertyGroup>
-	<PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
+    <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
   </PropertyGroup>
 </Project>
