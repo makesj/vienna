@@ -1,30 +1,18 @@
-﻿class Process
-    
-    def on_init
-    end
-    
-    def on_update(delta) 
-    end
-    
-    def on_success
-    end
-    
-    def on_fail
-    end
-    
-    def on_abort
-    end
+﻿require "CoreLibrary"
 
-end
+class PrintNumbersProcess < RubyProcess
 
-class PrintNumbersProcess < Process
-
-    def initialize()    
+    def initialize(interop)   
+        super(interop) 
         puts "initialize"       
     end
 
-    def init()
+    def on_init()
         puts "init override"
+    end
+    
+    def on_update(delta) 
+        puts delta
     end
 
 end

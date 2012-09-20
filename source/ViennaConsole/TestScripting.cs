@@ -21,7 +21,7 @@ namespace ViennaConsole
 
             Helper.StartTimer();
 
-            var o = ScriptManager.Instance.GetInstance("TestScript");
+            var o = ScriptManager.Instance.GetInstance("TestScript", "default value");
 
             var ms2 = Helper.StopTimer();
 
@@ -37,8 +37,26 @@ namespace ViennaConsole
 
             Logger.Debug("instance_method return value = {0}", r);
             
+            
             ScriptManager.Instance.Invoke("some_global_scope_method", 37728);
 
+            Logger.Debug("\nAccessing accessors...");
+
+            o.print_myaccessor();
+
+            ScriptManager.Instance.Invoke(o, "myaccessor=", 1234);
+
+            ScriptManager.Instance.Invoke(o, "print_myaccessor");
+
+            ScriptManager.Instance.CreateVariable("test_case", this);
+
+            ScriptManager.Instance.Invoke("call_foo");
+
+        }
+
+        public void Foo()
+        {
+            Logger.Debug("Foo() called from script");
         }
     }
 }

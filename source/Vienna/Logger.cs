@@ -9,14 +9,9 @@ namespace Vienna
             Console.WriteLine(obj);
         }
 
-        public static void Debug(string text)
-        {
-            Console.WriteLine("debug - {0}", text);
-        }
-
         public static void Debug(string text, params object[] args)
         {
-            Console.WriteLine("debug - {0}", string.Format(text, args));
+            Console.WriteLine(string.Format(text, args));
         }
 
         public static void Error(string text)

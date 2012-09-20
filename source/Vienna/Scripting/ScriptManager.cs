@@ -61,7 +61,7 @@ namespace Vienna.Scripting
             _engine.ExecuteFile(path, _scope);
         }
 
-        public dynamic GetInstance(string instanceName)
+        public dynamic GetInstance(string instanceName, params object[] args)
         {
             dynamic instanceVariable;
             var instanceVariableResult = _engine.Runtime.Globals.TryGetVariable(instanceName, out instanceVariable);
@@ -69,7 +69,7 @@ namespace Vienna.Scripting
             if (!instanceVariableResult && instanceVariable == null)
                 throw new InvalidOperationException(string.Format("Unable to find {0}", instanceName));
 
-            return _engine.Operations.CreateInstance(instanceVariable);
+            return _engine.Operations.CreateInstance(instanceVariable, args);
         }
 
         public dynamic Invoke(RubyObject obj, string name, params object[] args)

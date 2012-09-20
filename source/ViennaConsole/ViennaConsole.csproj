@@ -69,6 +69,7 @@
     <Compile Include="TestProcess.cs" />
     <Compile Include="TestResources.cs" />
     <Compile Include="TestScripting.cs" />
+    <Compile Include="TestScriptProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vienna\Vienna.csproj">
@@ -79,6 +80,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Assets\monster.json" />
+    <None Include="Scripts\CoreLibrary.rb" />
     <None Include="Scripts\PrintNumbersProcess.rb" />
     <None Include="Assets\ninja.json" />
     <None Include="Scripts\TestScript.rb" />
