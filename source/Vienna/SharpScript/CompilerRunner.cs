@@ -24,6 +24,7 @@ namespace Vienna.SharpScript
             parameters.GenerateExecutable = false;
             parameters.ReferencedAssemblies.Add("system.dll");
             parameters.ReferencedAssemblies.Add("system.core.dll");
+            parameters.ReferencedAssemblies.Add("Vienna.dll");
 
             var result = codeProvider.CompileAssemblyFromSource(parameters, code);
 
@@ -54,13 +55,22 @@ namespace Vienna.SharpScript
             return type.InvokeMember(methodName, BindingFlags.InvokeMethod, null, assembly, args);
         }
 
-        public object Activate(string typeName, object[] args)
+        public ScriptProxy Activate(string typeName, object[] args)
         {
-            //var type = this.assembly.GetType(typeName);
-            //dynamic instance = Activator.CreateInstance(type, args);
-            var x = AppDomain.CurrentDomain.CreateInstanceFromAndUnwrap(assembly.FullName, typeName);
-            return x;
+            var type = this.assembly.GetType(typeName);
+
+            if (type == null)
+            {
+                throw new Exception("Unknown script type " + typeName);
+            }
+
+            var x = Activator.CreateInstance(type, args);
+            return new ScriptProxy(x);
         }
 
+        public void Inject(ScriptProxy proxy)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

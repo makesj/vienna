@@ -99,7 +99,7 @@
     <None Include="Scripts\TestScript.rb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Scripts\TestSharpScript.cscript">
+    <None Include="Scripts\MySharpScript.cscript">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

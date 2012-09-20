@@ -91,8 +91,9 @@
     <Compile Include="Resources\ResourceCatalog.cs" />
     <Compile Include="Scripting\ScriptManager.cs" />
     <Compile Include="Scripting\ScriptProcess.cs" />
-    <Compile Include="SharpScript\Class1.cs" />
     <Compile Include="SharpScript\CompilerRunner.cs" />
+    <Compile Include="SharpScript\DynamicScriptProxy.cs" />
+    <Compile Include="SharpScript\ScriptProxy.cs" />
     <Compile Include="SharpScript\SharpScriptContext.cs" />
     <Compile Include="SharpScript\SharpScriptEnvironment.cs" />
     <Compile Include="SharpScript\SharpScriptManager.cs" />
