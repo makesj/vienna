@@ -1,0 +1,13 @@
+﻿using System;
+using System.Linq;
+
+[Serializable]
+public class TestSharpScript : MarshalByRefObject
+{
+
+    public void Foo()
+    {
+        Console.WriteLine("Hello From Sharp Script!");
+    }
+
+}
