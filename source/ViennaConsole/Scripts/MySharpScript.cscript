@@ -1,0 +1,24 @@
+﻿using System;
+using System.Linq;
+using Vienna.SharpScript;
+
+public class MySharpScript
+{
+    public string MyValue { get; set; }
+
+    public MySharpScript()
+    {
+        MyValue = "abc";
+    }
+
+    public void Foo()
+    {
+        Console.WriteLine("Foo() Hello From Sharp Script!");
+    }
+
+    public void Bar(ScriptProxy proxy)
+    {
+        proxy.InvokeMethod("Foo", null);
+    }
+
+}
