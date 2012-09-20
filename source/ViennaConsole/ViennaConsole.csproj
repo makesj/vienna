@@ -15,7 +15,6 @@
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <OutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\bin\</OutputPath>
-    <IntermediateOutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\obj\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -31,7 +30,6 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\bin\</OutputPath>
-    <IntermediateOutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\obj\</IntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -76,6 +74,7 @@
     <Compile Include="TestResources.cs" />
     <Compile Include="TestScripting.cs" />
     <Compile Include="TestScriptProcess.cs" />
+    <Compile Include="TestSharpScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vienna\Vienna.csproj">
@@ -98,6 +97,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Scripts\TestScript.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\TestSharpScript.cscript">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

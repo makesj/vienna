@@ -13,7 +13,6 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <OutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\bin\</OutputPath>
-    <IntermediateOutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\obj\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -92,6 +91,11 @@
     <Compile Include="Resources\ResourceCatalog.cs" />
     <Compile Include="Scripting\ScriptManager.cs" />
     <Compile Include="Scripting\ScriptProcess.cs" />
+    <Compile Include="SharpScript\Class1.cs" />
+    <Compile Include="SharpScript\CompilerRunner.cs" />
+    <Compile Include="SharpScript\SharpScriptContext.cs" />
+    <Compile Include="SharpScript\SharpScriptEnvironment.cs" />
+    <Compile Include="SharpScript\SharpScriptManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Audio\" />
@@ -105,6 +109,6 @@
   <Target Name="AfterBuild">
   </Target>
   <PropertyGroup>
-	<PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
+    <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
   </PropertyGroup>
 </Project>
