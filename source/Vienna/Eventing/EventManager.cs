@@ -27,6 +27,8 @@ namespace Vienna.Eventing
             EventDelegateMap = new Dictionary<long, List<MulticastDelegate>>();
         }
 
+        private const int INFINITE = -1;
+
         private List<IEventData> EventQueue = new List<IEventData>();
         private Dictionary<long, List<MulticastDelegate>> EventDelegateMap { get; set; }
 
@@ -120,8 +122,43 @@ namespace Vienna.Eventing
 
         public bool Update(int maxMilliseconds)
         {
-            // TODO: Implement
-            throw new NotImplementedException();
+            var success = false;
+
+            var currentMilliseconds = DateTime.Now.Ticks;
+            var maxMs = (maxMilliseconds == INFINITE) 
+                ? INFINITE : currentMilliseconds + maxMilliseconds;
+
+            // TODO: Process the active queue.
+            while (EventQueue.Count > 0)
+            {
+                if (EventDelegateMap.ContainsKey(EventQueue[0].EventType))
+                {
+                    foreach (var eventDelegate in EventDelegateMap[EventQueue[0].EventType])
+                    {
+                        eventDelegate.DynamicInvoke(EventQueue[0]);
+                        success = true;
+                    }
+                }
+
+                EventQueue.RemoveAt(0);
+
+                currentMilliseconds = DateTime.Now.Ticks;
+
+                if (maxMilliseconds != INFINITE && currentMilliseconds > maxMs)
+                {
+                    break;
+                }
+            }
+
+            // TODO: Check if the queue is empty.  If not empty then there
+            // wasn't enough time to process the entire queue. We need to
+            // push events that weren't complete to the next queue so they can
+            // be processed in the next update.
+
+            // TODO: Empty the current queue.
+            // TODO: Set the queue to the next queue.
+
+            return success;
         }
     }
 }

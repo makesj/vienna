@@ -30,10 +30,18 @@ namespace ViennaConsole
             QueueNewActorHandler = HandleQueueNewActor;
             EventManager.Instance.AddListener(EventData_New_Actor.Type, QueueNewActorHandler);
 
-            //Logger.Debug("Two events should fire.");
-            //EventManager.Instance.QueueEvent(newActorEvent);
-            //EventManager.Instance.QueueEvent(newActorEvent2);
-            //EventManager.Instance.Update(1000);
+            Logger.Debug("A bunch of events should fire.");
+            EventManager.Instance.QueueEvent(newActorEvent);
+            EventManager.Instance.QueueEvent(newActorEvent2);
+            EventManager.Instance.QueueEvent(newActorEvent2);
+            EventManager.Instance.QueueEvent(newActorEvent2);
+            EventManager.Instance.QueueEvent(newActorEvent2);
+            EventManager.Instance.QueueEvent(newActorEvent2);
+            EventManager.Instance.QueueEvent(newActorEvent2);
+            EventManager.Instance.QueueEvent(newActorEvent2);
+            EventManager.Instance.QueueEvent(newActorEvent2);
+            EventManager.Instance.QueueEvent(newActorEvent2);
+            EventManager.Instance.Update(2000);
 
             EventManager.Instance.RemoveListener(EventData_New_Actor.Type, QueueNewActorHandler);
             QueueNewActorHandler = null;
