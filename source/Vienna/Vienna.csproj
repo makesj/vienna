@@ -80,6 +80,11 @@
     <Compile Include="Audio\DirectSoundAudioBuffer.cs" />
     <Compile Include="Audio\IAudio.cs" />
     <Compile Include="Audio\IAudioBuffer.cs" />
+    <Compile Include="Eventing\EventManager.cs" />
+    <Compile Include="Eventing\Events\EventData_New_Actor.cs" />
+    <Compile Include="Eventing\GameEventHandler.cs" />
+    <Compile Include="Eventing\IEventData.cs" />
+    <Compile Include="Eventing\IEventManager.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Processes\DelayProcess.cs" />
     <Compile Include="Processes\ProcessCounter.cs" />
