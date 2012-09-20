@@ -14,13 +14,14 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <OutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\bin\</OutputPath>
+    <IntermediateOutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\obj\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,10 +30,14 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\bin\</OutputPath>
+    <IntermediateOutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\obj\</IntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IronRuby, Version=1.1.4.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
@@ -65,6 +70,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestActors.cs" />
+    <Compile Include="TestAudio.cs" />
     <Compile Include="TestEvents.cs" />
     <Compile Include="TestProcess.cs" />
     <Compile Include="TestResources.cs" />
@@ -89,6 +95,9 @@
     <Content Include="Assets\ninja.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+	<PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

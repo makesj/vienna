@@ -12,12 +12,13 @@
     <AssemblyName>Vienna</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <OutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\bin\</OutputPath>
+    <IntermediateOutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\obj\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,10 +26,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip">
@@ -50,6 +53,9 @@
     <Reference Include="Microsoft.Scripting, Version=1.1.0.30, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\library\IronRuby\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio">
+      <HintPath>..\..\library\NAudio.1.5\lib\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\library\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
@@ -87,13 +93,18 @@
     <Compile Include="Scripting\ScriptManager.cs" />
     <Compile Include="Scripting\ScriptProcess.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Audio\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
+  -->
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  -->
+  <PropertyGroup>
+	<PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
+  </PropertyGroup>
 </Project>
