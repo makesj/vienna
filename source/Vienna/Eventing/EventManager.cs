@@ -135,28 +135,33 @@ namespace Vienna.Eventing
 
             return success;
         }
-
-       public bool AbortEvent(long eventType, bool allOfType)
-       {
-            // TODO: Implement active queue aborting.
-
-            var success = false;
+		
+		// TODO: Refactor to not use LINQ. Could be slow.
+        public bool AbortEvent(long eventType, bool allOfType)
+        {
+        	var success = false;
 			
-			// TODO: Very wrong. Should be removing from the queue, not from
-			// the delegates.
-            if (EventDelegateMap[eventType].Count > 0)
-            {
-                while (EventDelegateMap[eventType].Count > 0)
-                {
-                    EventDelegateMap[eventType].RemoveAt(0);
-                    success = true;
-                    if (!allOfType) break;
-                }
-            }
+			if (EventDelegateMap.ContainsKey(eventType))
+			{
+				var eventQueue = EventQueue[activeQueue];
+				var events = EventQueue[activeQueue].Where(x => x.EventType == eventType);
+				
+				if (allOfType) 
+				{
+					eventQueue.RemoveAll(x => x.EventType == eventType);
+					success = true;
+				}
+				else
+				{
+					var eventToDelete = eventQueue.FirstOrDefault(x => x.EventType == eventType);
+					if (eventToDelete != null) eventQueue.Remove(eventToDelete); success = true;
+				}
+			}
 
             return success;
         }
 		
+		// TODO: Break this up into helper methods.
         public bool Update(int maxMilliseconds)
         {
             var currentMilliseconds = GetTicks();
@@ -184,8 +189,9 @@ namespace Vienna.Eventing
                     {
                         Logger.Debug("Event Loop: Sending event {0} to delegate", currentEvent.Name);
                         eventDelegate.DynamicInvoke(currentEvent);
-                        currentQueue.RemoveAt(0);
                     }
+					
+					currentQueue.RemoveAt(0);
                 }
 
                 currentMilliseconds = GetTicks();
