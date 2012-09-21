@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Vienna.SharpScript;
 
 public class MySharpScript
@@ -9,6 +8,7 @@ public class MySharpScript
     public MySharpScript()
     {
         MyValue = "abc";
+        AnotherScriptClass.AnotherMethod();
     }
 
     public void Foo()
@@ -19,6 +19,9 @@ public class MySharpScript
     public void Bar(ScriptProxy proxy)
     {
         proxy.InvokeMethod("HostFoo", null);
+
+        //dynamic d = new DynamicScriptProxy(proxy);//this is really slow for some reason
+        //d.HostFoo();
     }
 
     public void ThrowsError()

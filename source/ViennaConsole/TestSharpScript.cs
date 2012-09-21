@@ -1,62 +1,57 @@
-﻿using System;
-using Vienna;
+﻿using Vienna;
 using Vienna.SharpScript;
 
 namespace ViennaConsole
 {
-    [TestCase(CaseNumber = 100)]
+    [TestCase(CaseNumber = 101)]
     public class TestSharpScript
     {
+        const string Global = "ScriptMain";
+
         public void Execute()
         {
-            Logger.Debug("Creating script domain");
+            Logger.Debug("Creating script context {0} and compiling script.", Global);
+
             var script = Helper.LoadFile("Scripts/MySharpScript.cscript");
+            var script2 = Helper.LoadFile("Scripts/AnotherScriptClass.cscript");
 
-            AppDomain domain = AppDomain.CreateDomain("ScriptDomain");
+            var manager = new SharpScriptContextManager();
+            manager.Compile(Global, new[]{script,script2});
 
-            var cr = (CompilerRunner)domain.CreateInstanceFromAndUnwrap("Vienna.dll", "Vienna.SharpScript.CompilerRunner");
-            cr.PrintDomain();
+            Logger.Debug("\nActivating new class of type MySharpScript");
 
-            cr.Compile(script);
+            dynamic s1 = manager.Activate(Global, "MySharpScript", null);
+            Logger.Debug("MySharpScript context = {0}", s1.ProxyContext);
+            s1.Foo();
+            Logger.Debug(s1.MyValue);
+            s1.MyValue = "123";
+            Logger.Debug(s1.MyValue);
 
-            Logger.Debug("\nCreating proxy to ScriptDomain");
-
-            var script1 = cr.Activate("MySharpScript", null);
-            dynamic d = new DynamicScriptProxy(script1);
-
-            d.Foo();
-            var y = d.MyValue;
-
-            Logger.Debug("MySharpScript.MyValue = " + y);
-
-            d.MyValue = "1234";
-
-            y = d.MyValue;
-
-            Logger.Debug("MySharpScript.MyValue = " + y);
-
-            Logger.Debug("Script proxy domain = " + d.ProxyDomain);
-
-            Logger.Debug("\nCreating proxy to Host process");
+            Logger.Debug("\nSending host process objects to script");
 
             var hostProxy = new ScriptProxy(this);
+            s1.Bar(hostProxy);
 
+            Logger.Debug("\nNext call should throw script error...");
 
-            var script2 = cr.Activate("MySharpScript", null);
-            script2.InvokeMethod("Bar", new[] { hostProxy });
+            try
+            {
+                s1.ThrowsError();
+            }
+            catch
+            {
+            }
 
+            manager.Dispose();
 
-            AppDomain.Unload(domain);
+            Logger.Debug("\nNext call should throw...");
 
-            Logger.Debug("\nNext line should throw:");
-
-            script2.InvokeMethod("Bar", new[] { hostProxy });
-
+            var x = s1.ProxyContext;
         }
 
-        public void Foo()
+        public void HostFoo()
         {
-            Console.WriteLine("Hello! from host process " + AppDomain.CurrentDomain.FriendlyName);
+            Logger.Debug("HostFoo() called from script");
         }
     }
 }

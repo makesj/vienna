@@ -7,7 +7,6 @@ namespace Vienna.SharpScript
     public class SharpScriptMarshaller : MarshalByRefObject, IDisposable
     {
         private SharpScriptCompiler _compiler = new SharpScriptCompiler();
-        private readonly List<Assembly> _assemblies = new List<Assembly>();
         private readonly Dictionary<string, Type> _types = new Dictionary<string, Type>();
 
         public string AppDomainName
@@ -15,10 +14,9 @@ namespace Vienna.SharpScript
             get { return AppDomain.CurrentDomain.FriendlyName; }
         }
 
-        public void Compile(string script)
+        public void Compile(string[] scripts)
         {
-            var assembly = _compiler.Compile(script);
-            _assemblies.Add(assembly);
+            var assembly = _compiler.Compile(scripts);
 
             foreach (var type in assembly.GetTypes())
             {
@@ -39,7 +37,6 @@ namespace Vienna.SharpScript
 
         public void Dispose()
         {
-            _assemblies.Clear();
             _types.Clear();
             _compiler = null;
         }

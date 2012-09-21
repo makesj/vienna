@@ -15,17 +15,18 @@ namespace Vienna.SharpScript
         {
             _codeProvider = new CSharpCodeProvider();
             _parameters = new CompilerParameters();
+            _parameters.TempFiles.KeepFiles = false;
             _parameters.GenerateInMemory = true;
             _parameters.GenerateExecutable = false;
             _parameters.ReferencedAssemblies.Add("system.dll");
             _parameters.ReferencedAssemblies.Add("system.core.dll");
             _parameters.ReferencedAssemblies.Add("Vienna.dll");
-
+            _parameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll");
         }
 
-        public Assembly Compile(string script)
+        public Assembly Compile(string[] scripts)
         {
-            var result = _codeProvider.CompileAssemblyFromSource(_parameters, script);
+            var result = _codeProvider.CompileAssemblyFromSource(_parameters, scripts);
 
             if (result.Errors.HasWarnings)
                 LogWarnings(result);          

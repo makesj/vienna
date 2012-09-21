@@ -1,0 +1,9 @@
+﻿using System;
+
+public static class AnotherScriptClass
+{
+    public static void AnotherMethod()
+    {
+        Console.WriteLine("static script method -> AnotherScriptClass.AnotherMethod()");
+    }
+}

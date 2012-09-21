@@ -29,14 +29,14 @@ namespace Vienna.SharpScript
             return new DynamicScriptProxy(proxy);
         }
 
-        public void Compile(string context, string script)
+        public void Compile(string context, string[] scripts)
         {
             if (!_contexts.ContainsKey(context))
             {
                 CreateContext(context);
             }
 
-            _contexts[context].Marshaller.Compile(script);
+            _contexts[context].Marshaller.Compile(scripts);
         }
 
         public void Unload(string context)
