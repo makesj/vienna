@@ -33,9 +33,17 @@ namespace ViennaConsole
             {
                 EventManager.Instance.QueueEvent(newActorEvent);
             }
-
+			
+			// Simulate multiple calls to the update to test each queue.
             Logger.Debug("5 events should fire.");
             EventManager.Instance.Update(1000);
+			
+			Logger.Debug("1 event should fire.");
+			EventManager.Instance.QueueEvent(newActorEvent);
+			EventManager.Instance.Update(1000);
+			
+			Logger.Debug("No events should fire.");
+			EventManager.Instance.Update(1000);
 
             EventManager.Instance.RemoveListener(EventData_New_Actor.Type, QueueNewActorHandler);
             QueueNewActorHandler = null;
