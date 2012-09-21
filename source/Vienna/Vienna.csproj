@@ -97,6 +97,7 @@
     <Compile Include="SharpScript\SharpScriptMarshaller.cs" />
     <Compile Include="SharpScript\SharpScriptContext.cs" />
     <Compile Include="SharpScript\SharpScriptContextManager.cs" />
+    <Compile Include="SharpScript\StringMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Audio\" />

@@ -19,7 +19,7 @@ namespace Vienna.SharpScript
             Instance = instance;
         }
 
-        public object InvokeMethod(string methodName, object[] args)
+        public object InvokeMethod(string methodName, params object[] args)
         {
             try
             {

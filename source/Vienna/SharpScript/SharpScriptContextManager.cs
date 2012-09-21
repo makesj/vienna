@@ -15,7 +15,7 @@ namespace Vienna.SharpScript
         {
             var domain = AppDomain.CreateDomain(name);
             var marshaller = (SharpScriptMarshaller)domain.CreateInstanceFromAndUnwrap(MarshallerDll, MarshallerType);
-            _contexts.Add(name, new SharpScriptContext { Marshaller = marshaller, Domain = domain});
+            _contexts.Add(name, new SharpScriptContext(domain, marshaller));
         }
 
         public DynamicScriptProxy Activate(string context, string type, object[] args)
@@ -42,10 +42,7 @@ namespace Vienna.SharpScript
         public void Unload(string context)
         {
             var c = _contexts[context];
-            c.Marshaller.Dispose();
-            AppDomain.Unload(c.Domain);
-            c.Marshaller = null;
-            c.Domain = null;
+            c.Dispose();
             _contexts.Remove(context);
         }
 

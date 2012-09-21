@@ -49,9 +49,9 @@ namespace ViennaConsole
             var x = s1.ProxyContext;
         }
 
-        public void HostFoo()
+        public void HostFoo(StringMap args)
         {
-            Logger.Debug("HostFoo() called from script");
+            Logger.Debug("HostFoo() called from script, args={0}", args);
         }
     }
 }
