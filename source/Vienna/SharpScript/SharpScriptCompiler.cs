@@ -6,7 +6,8 @@ using System.Text;
 using Microsoft.CSharp;
 
 namespace Vienna.SharpScript
-{
+{    
+
     public class SharpScriptCompiler
     {
         private readonly CSharpCodeProvider _codeProvider;
@@ -18,20 +19,29 @@ namespace Vienna.SharpScript
             _codeProvider = new CSharpCodeProvider();
 
             _parameters = new CompilerParameters();
+#if DEBUG
+            _parameters.GenerateInMemory = false;
+            _parameters.TempFiles = new TempFileCollection(Environment.GetEnvironmentVariable("TEMP"), true);
+            _parameters.IncludeDebugInformation = true;
+            _parameters.TempFiles.KeepFiles = true;
+#else 
             _parameters.TempFiles.KeepFiles = false;
             _parameters.GenerateInMemory = true;
             _parameters.GenerateExecutable = false;
+#endif
             _parameters.ReferencedAssemblies.Add("system.dll");
             _parameters.ReferencedAssemblies.Add("system.core.dll");
             _parameters.ReferencedAssemblies.Add("Vienna.dll");
             _parameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll");
 
             _imports = new StringBuilder();
-            _imports.Append("using System;");  
-            _imports.Append("using System.Text;"); 
-            _imports.Append("using System.Collections.Generic;"); 
-            _imports.Append("using System.Linq;");
-            _imports.Append("using Vienna.SharpScript;"); 
+            _imports.AppendLine("using System;");
+            _imports.AppendLine("using System.Text;");
+            _imports.AppendLine("using System.Collections.Generic;");
+            _imports.AppendLine("using System.Linq;");
+            _imports.AppendLine("using Vienna.SharpScript;");
+
+
         }
 
         public Assembly Compile(string[] scripts)
@@ -39,7 +49,7 @@ namespace Vienna.SharpScript
             //add default using statements
             var processedScripts = scripts.Select(script => _imports + script).ToArray();
 
-            var result = _codeProvider.CompileAssemblyFromSource(_parameters, processedScripts);
+            var result = _codeProvider.CompileAssemblyFromSource(_parameters, processedScripts);            
 
             if (result.Errors.HasWarnings)
                 LogWarnings(result);          
