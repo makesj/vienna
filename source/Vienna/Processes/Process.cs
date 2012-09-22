@@ -124,6 +124,8 @@ namespace Vienna.Processes
         public virtual void OnFail() { }
 
         // called if the process is aborted
-        public virtual void OnAbort() { } 
+        public virtual void OnAbort() { }
+
+        public virtual void Destroy() { } 
     }
 }

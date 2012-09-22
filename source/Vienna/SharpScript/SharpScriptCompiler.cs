@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Microsoft.CSharp;
@@ -10,10 +11,12 @@ namespace Vienna.SharpScript
     {
         private readonly CSharpCodeProvider _codeProvider;
         private readonly CompilerParameters _parameters;
+        private readonly StringBuilder _imports;
 
         public SharpScriptCompiler()
         {
             _codeProvider = new CSharpCodeProvider();
+
             _parameters = new CompilerParameters();
             _parameters.TempFiles.KeepFiles = false;
             _parameters.GenerateInMemory = true;
@@ -22,11 +25,21 @@ namespace Vienna.SharpScript
             _parameters.ReferencedAssemblies.Add("system.core.dll");
             _parameters.ReferencedAssemblies.Add("Vienna.dll");
             _parameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll");
+
+            _imports = new StringBuilder();
+            _imports.Append("using System;");  
+            _imports.Append("using System.Text;"); 
+            _imports.Append("using System.Collections.Generic;"); 
+            _imports.Append("using System.Linq;");
+            _imports.Append("using Vienna.SharpScript;"); 
         }
 
         public Assembly Compile(string[] scripts)
         {
-            var result = _codeProvider.CompileAssemblyFromSource(_parameters, scripts);
+            //add default using statements
+            var processedScripts = scripts.Select(script => _imports + script).ToArray();
+
+            var result = _codeProvider.CompileAssemblyFromSource(_parameters, processedScripts);
 
             if (result.Errors.HasWarnings)
                 LogWarnings(result);          
@@ -55,10 +68,11 @@ namespace Vienna.SharpScript
             foreach (CompilerError error in result.Errors)
             {
                 if (error.IsWarning) continue;
-                sb.Append(error.Line)
+                sb.AppendLine(error.FileName)
+                    .Append(error.Line)
                     .Append(" - ")
                     .Append(error.ErrorText)
-                    .AppendLine();
+                    .AppendLine(error.FileName);
             }
             Logger.Error(sb.ToString());
         }

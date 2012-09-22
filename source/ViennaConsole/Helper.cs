@@ -25,6 +25,18 @@ namespace ViennaConsole
             return Path.Combine(GetExecutionPath(), path);
         }
 
+        public static string[] GetFilesByExtension(string directory, string pattern)
+        {
+            var path = Path.Combine(GetExecutionPath(), directory);
+            return Directory.GetFiles(path, pattern);
+        }
+
+        public static string[] LoadFilesByExtension(string directory, string pattern)
+        {
+            var paths = GetFilesByExtension(directory, pattern);
+            return paths.Select(LoadFile).ToArray();
+        }
+
         public static string LoadFile(string path)
         {
             var fullPath = GetFilePath(path);

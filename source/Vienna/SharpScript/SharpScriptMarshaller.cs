@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace Vienna.SharpScript
 {
@@ -28,7 +27,7 @@ namespace Vienna.SharpScript
         {
             if (!_types.ContainsKey(typeName))
             {
-                throw new Exception("Unknown type " + typeName);
+                throw new Exception(string.Format("Unknown type '{0}'",typeName));
             }
 
             var instance = Activator.CreateInstance(_types[typeName], args);

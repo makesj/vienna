@@ -5,8 +5,8 @@ namespace Vienna.SharpScript
 {
     public class ScriptProxy : MarshalByRefObject
     {
-        public Type Type { get; set; } 
-        public Object Instance { get; set; }
+        private readonly Type _type;
+        private readonly Object _instance;
 
         public string ProxyContext
         {
@@ -15,15 +15,15 @@ namespace Vienna.SharpScript
 
         public ScriptProxy(object instance)
         {
-            Type = instance.GetType();
-            Instance = instance;
+            _type = instance.GetType();
+            _instance = instance;
         }
 
         public object InvokeMethod(string methodName, params object[] args)
         {
             try
             {
-                return Type.InvokeMember(methodName, BindingFlags.InvokeMethod, null, Instance, args);
+                return _type.InvokeMember(methodName, BindingFlags.InvokeMethod, null, _instance, args);
             }
             catch (TargetInvocationException ex)
             {
@@ -36,7 +36,7 @@ namespace Vienna.SharpScript
         {
             try
             {
-                return Type.InvokeMember(propertyName, BindingFlags.GetProperty, null, Instance, null);   
+                return _type.InvokeMember(propertyName, BindingFlags.GetProperty, null, _instance, null);   
             }
             catch (TargetInvocationException ex)
             {
@@ -49,7 +49,7 @@ namespace Vienna.SharpScript
         {
             try
             {
-                return Type.InvokeMember(propertyName, BindingFlags.SetProperty, null, Instance, new[] { value });
+                return _type.InvokeMember(propertyName, BindingFlags.SetProperty, null, _instance, new[] { value });
             }
             catch (TargetInvocationException ex)
             {
@@ -60,7 +60,7 @@ namespace Vienna.SharpScript
 
         private void LogError(Exception ex, string target)
         {
-            Logger.Error("{0}.{1} - Exception! ", Type.Name, target, ex.Message);
+            Logger.Error("{0}.{1} - Exception! ", _type.Name, target, ex.Message);
 
             var inner = ex;
             while (inner != null)
@@ -73,6 +73,11 @@ namespace Vienna.SharpScript
                 }
                 inner = inner.InnerException;
             }
+        }
+
+        public DynamicScriptProxy AsDynamic()
+        {
+            return new DynamicScriptProxy(this);
         }
     }
 }

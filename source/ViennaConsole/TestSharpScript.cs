@@ -1,4 +1,5 @@
-﻿using Vienna;
+﻿using System;
+using Vienna;
 using Vienna.SharpScript;
 
 namespace ViennaConsole
@@ -15,7 +16,7 @@ namespace ViennaConsole
             var script = Helper.LoadFile("Scripts/MySharpScript.cscript");
             var script2 = Helper.LoadFile("Scripts/AnotherScriptClass.cscript");
 
-            var manager = new SharpScriptContextManager();
+            var manager = new SharpScriptContext();
             manager.Compile(Global, new[]{script,script2});
 
             Logger.Debug("\nActivating new class of type MySharpScript");
@@ -52,6 +53,23 @@ namespace ViennaConsole
         public void HostFoo(StringMap args)
         {
             Logger.Debug("HostFoo() called from script, args={0}", args);
+        }
+
+        public dynamic Foo()
+        {
+            Print(Bar, Bar);
+            return null;
+        }
+
+        public dynamic Bar()
+        {
+            return "Hello";
+        }
+
+        public void Print(Func<dynamic> x, Func<dynamic> y)
+        {
+            Console.WriteLine(x().ToString());
+            Console.WriteLine(x());
         }
     }
 }

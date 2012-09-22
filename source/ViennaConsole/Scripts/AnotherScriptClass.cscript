@@ -1,6 +1,4 @@
-﻿using System;
-
-public static class AnotherScriptClass
+﻿public static class AnotherScriptClass
 {
     public static void AnotherMethod()
     {

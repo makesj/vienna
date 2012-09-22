@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Vienna.SharpScript;
-
-public class MySharpScript
+﻿public class MySharpScript
 {
     public string MyValue { get; set; }
 
@@ -20,12 +16,7 @@ public class MySharpScript
     public void Bar(ScriptProxy proxy)
     {
         var args = new StringMap { { "hello", "world" }, { "foo", "bar" } };
-
         proxy.InvokeMethod("HostFoo", args);
-
-
-        //dynamic d = new DynamicScriptProxy(proxy);//this is really slow for some reason
-        //d.HostFoo();
     }
 
     public void ThrowsError()
