@@ -115,6 +115,6 @@
   <Target Name="AfterBuild">
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
+    <PostBuildEvent>rd "$(ProjectDir)/obj" /S /Q</PostBuildEvent>
   </PropertyGroup>
 </Project>
