@@ -8,7 +8,7 @@ namespace Vienna.Audio
 {
     public interface IAudioBuffer
     {
-        void Get();
+        object Get();
         Resource GetResource();
         bool OnRestore();
 
@@ -20,8 +20,8 @@ namespace Vienna.Audio
         bool TogglePause();
         bool IsPlaying();
         bool IsLooping();
-        bool SetVolume(int volume);
-        bool SetPosition(ulong newPosition);
+        void SetVolume(int volume);
+        void SetPosition(long newPosition);
         int GetVolume();
         float GetProgress();
     }     

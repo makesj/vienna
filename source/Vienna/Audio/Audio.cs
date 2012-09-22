@@ -6,7 +6,9 @@ using Vienna.Resources;
 namespace Vienna.Audio
 {
     public abstract class Audio : IAudio
-    {
+    {        
+        protected bool _shuttingDown = false;
+
         public Audio()
         {
             AllPaused = false;
@@ -22,7 +24,7 @@ namespace Vienna.Audio
 
         static bool HasSoundCard()
         {
-            return true;
+            return GlobalAudio.Instance != null;
         }
 
         protected IList<IAudioBuffer> AllSamples;
@@ -35,11 +37,14 @@ namespace Vienna.Audio
         }
 
         #region IAudio
+
+        public abstract bool Active();
+
         public abstract IAudioBuffer InitAudioBuffer(Resource handle);
 
         public abstract void ReleaseAudioBuffer(IAudioBuffer audioBuffer);
 
-        public abstract bool Initialize(object hWnd);
+        public abstract bool Initialize();
 
         public void StopAllSounds()
         {
@@ -67,17 +72,34 @@ namespace Vienna.Audio
             }
             AllPaused = false;
         }
-
+        
         public void Shutdown()
         {
-            for (int i = 0, j = AllSamples.Count; i < j; i++)
+            if (!_shuttingDown)
             {
-                var buffer = AllSamples[i];
-                buffer.Stop();
-                AllSamples.RemoveAt(0);
+                _shuttingDown = true;                
+                for (int i = 0, j = AllSamples.Count; i < j; i++)
+                {
+                    var buffer = AllSamples[0];
+                    buffer.Stop();
+                    AllSamples.RemoveAt(0);
+                }
             }
+            
 
         }
         #endregion IAudio
+    }
+
+    public static class GlobalAudio
+    {
+        private static IAudio _instance;
+        public static IAudio Instance {get {return _instance;}}
+        public static IAudio Register(IAudio audio)
+        {
+            _instance = audio;
+            return Instance;
+        }
+        
     }
 }

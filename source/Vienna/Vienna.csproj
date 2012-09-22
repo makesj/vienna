@@ -76,10 +76,12 @@
     <Compile Include="Actors\ScriptComponent.cs" />
     <Compile Include="Actors\TransformComponent.cs" />
     <Compile Include="Audio\Audio.cs" />
-    <Compile Include="Audio\DirectSoundAudio.cs" />
-    <Compile Include="Audio\DirectSoundAudioBuffer.cs" />
+    <Compile Include="Audio\NAudioSound.cs" />
+    <Compile Include="Audio\AudioBuffer.cs" />
+    <Compile Include="Audio\NAudioBuffer.cs" />
     <Compile Include="Audio\IAudio.cs" />
     <Compile Include="Audio\IAudioBuffer.cs" />
+    <Compile Include="Audio\SoundProcess.cs" />
     <Compile Include="Eventing\EventManager.cs" />
     <Compile Include="Eventing\Events\EventData_New_Actor.cs" />
     <Compile Include="Eventing\GameEventHandler.cs" />

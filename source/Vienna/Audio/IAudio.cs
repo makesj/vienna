@@ -6,6 +6,8 @@ namespace Vienna.Audio
 
     public interface IAudio
     {
+        bool Active();
+        
         IAudioBuffer InitAudioBuffer(Resource handle);
         void ReleaseAudioBuffer(IAudioBuffer audioBuffer);
 
@@ -13,7 +15,7 @@ namespace Vienna.Audio
         void PauseAllSounds();
         void ResumeAllSounds();
 
-        bool Initialize(object hWnd);
+        bool Initialize();
 
         void Shutdown();
     }
