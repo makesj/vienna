@@ -271,7 +271,10 @@ namespace Vienna.Audio
 
         bool IAudioBuffer.IsPlaying()
         {
-            return !_isPaused && (Position <= Length && !_loop);
+            if (!GlobalAudio.Instance.Active()) return false;
+            return !_isPaused 
+                && (Position <= Length && !_loop)
+                || (!_isPaused && _loop);
         }
 
         bool IAudioBuffer.IsLooping()

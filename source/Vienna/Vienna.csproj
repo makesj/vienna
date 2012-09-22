@@ -71,10 +71,12 @@
     <Compile Include="Actors\ActorFactory.cs" />
     <Compile Include="Actors\ActorScriptContext.cs" />
     <Compile Include="Actors\AiComponent.cs" />
+    <Compile Include="Actors\AudioComponent.cs" />
     <Compile Include="Actors\IComponent.cs" />
     <Compile Include="Actors\ScriptComponent.cs" />
     <Compile Include="Actors\TransformComponent.cs" />
     <Compile Include="Audio\Audio.cs" />
+    <Compile Include="Audio\FadeProcess.cs" />
     <Compile Include="Audio\NAudioSound.cs" />
     <Compile Include="Audio\AudioBuffer.cs" />
     <Compile Include="Audio\NAudioBuffer.cs" />

@@ -87,8 +87,8 @@ namespace Vienna.Audio
             return _audioBuffer.IsPlaying();
         }
 
-        void SetVolume(int volume)
-        {
+        public void SetVolume(int volume)
+        {            
             if (_audioBuffer == null)
             {
                 return;
@@ -98,7 +98,7 @@ namespace Vienna.Audio
             {
                 throw new InvalidOperationException(string.Format("Volume must between 0 and 100 was:{0}", volume));
             }
-
+            Logger.Debug("Setting volume:{0}", volume);
             _audioBuffer.SetVolume(volume);
         }
 
@@ -167,8 +167,6 @@ namespace Vienna.Audio
         public bool IsLooping()
         {
             return _audioBuffer != null && _audioBuffer.IsLooping(); 
-        }
-
-        
+        }       
     }
 }

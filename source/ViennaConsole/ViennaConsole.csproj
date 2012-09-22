@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestFade.cs" />
     <Compile Include="TestSharpScriptProcess.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="AssemblyExtensions.cs" />
