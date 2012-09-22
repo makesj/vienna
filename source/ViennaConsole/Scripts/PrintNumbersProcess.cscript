@@ -1,0 +1,17 @@
+﻿public class PrintNumbersProcess : Process
+{
+    public PrintNumbersProcess(ScriptProxy hostProcess)
+        : base(hostProcess)
+    { 
+    }
+
+    public override void OnInit()
+    {
+        Console.WriteLine("OnInit");
+    }
+
+    public override void OnUpdate(long delta) 
+    { 
+        Console.WriteLine(delta);
+    }
+}

@@ -4,6 +4,11 @@ namespace Vienna
 {
     public class Logger
     {
+        public static void Log(object obj)
+        {
+            Console.WriteLine(obj);
+        }
+
         public static void Debug(object obj)
         {
             Console.WriteLine(obj);

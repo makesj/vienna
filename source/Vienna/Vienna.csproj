@@ -13,7 +13,6 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <OutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\bin\</OutputPath>
-    <IntermediateOutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\obj\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -104,6 +103,13 @@
     <Compile Include="Resources\ResourceCatalog.cs" />
     <Compile Include="Scripting\ScriptManager.cs" />
     <Compile Include="Scripting\ScriptProcess.cs" />
+    <Compile Include="SharpScript\DynamicScriptProxy.cs" />
+    <Compile Include="SharpScript\ScriptProxy.cs" />
+    <Compile Include="SharpScript\SharpScriptCompiler.cs" />
+    <Compile Include="SharpScript\SharpScriptMarshaller.cs" />
+    <Compile Include="SharpScript\SharpScriptContext.cs" />
+    <Compile Include="SharpScript\SharpScriptProcess.cs" />
+    <Compile Include="SharpScript\StringMap.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

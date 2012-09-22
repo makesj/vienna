@@ -1,0 +1,39 @@
+﻿public class Process
+{
+    dynamic HostProcess;
+
+    public Process(ScriptProxy hostProcess)
+    { 
+        HostProcess = hostProcess;
+    }
+
+    public virtual void OnInit() { }
+
+    public virtual void OnUpdate(long delta) { }
+
+    public virtual void OnSuccess() { }
+
+    public virtual void OnFail() { }
+
+    public virtual void OnAbort() { } 
+
+    public bool IsAlive 
+    { 
+        get { return HostProcess.IsAlive; }
+    }
+
+    public bool IsDead
+    {
+        get { return HostProcess.IsDead; }
+    }
+
+    public bool IsRemoved 
+    {
+        get { return HostProcess.IsRemoved; }
+    }
+
+    public bool IsPaused 
+    {
+        get { return HostProcess.IsPaused; }
+    }
+}

@@ -28,6 +28,12 @@ namespace Vienna.Scripting
 
         }
 
+        public override void OnInit()
+        {
+            base.OnInit();
+            ScriptObject.on_init();
+        }
+
         public override void OnAbort()
         {
             ScriptObject.on_abort();

@@ -97,6 +97,7 @@ namespace Vienna.Processes
             }
 
             // remove the process and destroy it
+            process.Destroy();
             ProcessList.Remove(process);
 
             counter.Fail += failCount;
