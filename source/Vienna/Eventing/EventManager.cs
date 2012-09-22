@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Vienna.Eventing
 {
@@ -25,11 +26,22 @@ namespace Vienna.Eventing
         public EventManager()
         {
             EventDelegateMap = new Dictionary<long, List<MulticastDelegate>>();
+			EventQueue = new List<List<IEventData>>();
+			
+			for (int i = 0; i < MAX_QUEUES; i++)
+			{
+				EventQueue.Add(new List<IEventData>());
+			}
+			
+			activeQueue = 0;
         }
 
         private const int INFINITE = -1;
+		
+		private int activeQueue;
+		private const int MAX_QUEUES = 2;
 
-        private List<IEventData> EventQueue = new List<IEventData>();
+        private List<List<IEventData>> EventQueue;
         private Dictionary<long, List<MulticastDelegate>> EventDelegateMap { get; set; }
 
         public bool AddListener<T>(long eventType, GameEventHandler<T> eventHandler) where T : class, IEventData
@@ -112,7 +124,7 @@ namespace Vienna.Eventing
             if (EventDelegateMap.ContainsKey(eventData.EventType))
             {
                 // TODO: Implement active queuing.
-                EventQueue.Add(eventData);
+				EventQueue[activeQueue].Add(eventData);
                 Logger.Debug("Events: Successfully queued event: {0}", eventData.Name);
                 success = true;
             }
@@ -123,50 +135,63 @@ namespace Vienna.Eventing
 
             return success;
         }
-
+		
+		// TODO: Refactor to not use LINQ. Could be slow.
         public bool AbortEvent(long eventType, bool allOfType)
         {
-            // TODO: Implement active queue aborting.
-
-            var success = false;
-
-            if (EventDelegateMap[eventType].Count > 0)
-            {
-                while (EventDelegateMap[eventType].Count > 0)
-                {
-                    EventDelegateMap[eventType].RemoveAt(0);
-                    success = true;
-                    if (!allOfType) break;
-                }
-            }
+        	var success = false;
+			
+			if (EventDelegateMap.ContainsKey(eventType))
+			{
+				var eventQueue = EventQueue[activeQueue];
+				var events = EventQueue[activeQueue].Where(x => x.EventType == eventType);
+				
+				if (allOfType) 
+				{
+					eventQueue.RemoveAll(x => x.EventType == eventType);
+					success = true;
+				}
+				else
+				{
+					var eventToDelete = eventQueue.FirstOrDefault(x => x.EventType == eventType);
+					if (eventToDelete != null) eventQueue.Remove(eventToDelete); success = true;
+				}
+			}
 
             return success;
         }
-
+		
+		// TODO: Break this up into helper methods.
         public bool Update(int maxMilliseconds)
         {
-            var success = false;
-
             var currentMilliseconds = GetTicks();
             var maxMs = (maxMilliseconds == INFINITE) 
                 ? INFINITE : currentMilliseconds + maxMilliseconds;
-
-            // TODO: Process the active queue.
-            Logger.Debug("Event Loop: Processing event queue; {0} events to process.", EventQueue.Count);
-
-            while (EventQueue.Count > 0)
+			
+			// TODO: Process the realtime queue
+			
+			var queueToProcess = activeQueue;
+			activeQueue = (activeQueue + 1) % MAX_QUEUES;
+			EventQueue[activeQueue].Clear();
+			
+            Logger.Debug("Event Loop: Processing event queue {0}; {1} events to process.", queueToProcess, 
+			             EventQueue[queueToProcess].Count);
+			
+			var currentQueue = EventQueue[queueToProcess];
+            while (EventQueue[queueToProcess].Count > 0)
             {
-                Logger.Debug("Event Loop: Processing Event {0}", EventQueue[0].Name);
-                if (EventDelegateMap.ContainsKey(EventQueue[0].EventType))
+				var currentEvent = currentQueue[0];
+                Logger.Debug("Event Loop: Processing Event {0}", currentEvent.Name);
+                if (EventDelegateMap.ContainsKey(currentEvent.EventType))
                 {
-                    Logger.Debug("Event Loop: Found {0} delegates", EventDelegateMap[EventQueue[0].EventType].Count);
-                    foreach (var eventDelegate in EventDelegateMap[EventQueue[0].EventType])
+                    Logger.Debug("Event Loop: Found {0} delegates", EventDelegateMap[currentEvent.EventType].Count);
+                    foreach (var eventDelegate in EventDelegateMap[currentEvent.EventType])
                     {
-                        Logger.Debug("Event Loop: Sending event {0} to delegate", EventQueue[0].Name);
-                        eventDelegate.DynamicInvoke(EventQueue[0]);
-                        EventQueue.RemoveAt(0);
-                        success = true;
+                        Logger.Debug("Event Loop: Sending event {0} to delegate", currentEvent.Name);
+                        eventDelegate.DynamicInvoke(currentEvent);
                     }
+					
+					currentQueue.RemoveAt(0);
                 }
 
                 currentMilliseconds = GetTicks();
@@ -177,16 +202,20 @@ namespace Vienna.Eventing
                     break;
                 }
             }
+			
+			// If the queue isn't empty, move remaining events to next queue.
+			var queueFlushed = EventQueue[queueToProcess].Count == 0;
+			if (!queueFlushed)
+			{
+				for (int i = EventQueue[queueToProcess].Count; i > 0; i--)
+				{
+					// Does a copy, maybe not the best way to do it.
+					EventQueue[activeQueue].Insert(0, EventQueue[queueToProcess][i]);
+					EventQueue[queueToProcess].RemoveAt(i);
+				}
+			}
 
-            // TODO: Check if the queue is empty.  If not empty then there
-            // wasn't enough time to process the entire queue. We need to
-            // push events that weren't complete to the next queue so they can
-            // be processed in the next update.
-
-            // TODO: Empty the current queue.
-            // TODO: Set the queue to the next queue.
-
-            return success;
+            return queueFlushed;
         }
 
         // TODO: Move this to a helper.
