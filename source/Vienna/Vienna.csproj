@@ -10,21 +10,20 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vienna</RootNamespace>
     <AssemblyName>Vienna</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <OutputPath>..\..\temp\$(MSBuildProjectName)_$(Configuration)\bin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -36,35 +35,30 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\library\Ionic.Zip\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="IronRuby, Version=1.1.4.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\library\IronRuby\IronRuby.dll</HintPath>
-    </Reference>
-    <Reference Include="IronRuby.Libraries, Version=1.1.4.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\library\IronRuby\IronRuby.Libraries.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Dynamic, Version=1.1.0.30, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\library\IronRuby\Microsoft.Dynamic.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Scripting, Version=1.1.0.30, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\library\IronRuby\Microsoft.Scripting.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio">
-      <HintPath>..\..\library\NAudio.1.5\lib\NAudio.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\library\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL" />
+    <Reference Include="OpenTK.Compatibility, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="IronRuby">
+      <HintPath>..\..\library\IronRuby\IronRuby.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries">
+      <HintPath>..\..\library\IronRuby\IronRuby.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dynamic">
+      <HintPath>..\..\library\IronRuby\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting">
+      <HintPath>..\..\library\IronRuby\Microsoft.Scripting.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actors\Actor.cs" />
@@ -76,12 +70,13 @@
     <Compile Include="Actors\ScriptComponent.cs" />
     <Compile Include="Actors\TransformComponent.cs" />
     <Compile Include="Audio\Audio.cs" />
+    <Compile Include="Audio\SoundType.cs" />
     <Compile Include="Audio\FadeProcess.cs" />
-    <Compile Include="Audio\NAudioSound.cs" />
     <Compile Include="Audio\AudioBuffer.cs" />
-    <Compile Include="Audio\NAudioBuffer.cs" />
     <Compile Include="Audio\IAudio.cs" />
     <Compile Include="Audio\IAudioBuffer.cs" />
+    <Compile Include="Audio\OpenAlAudio.cs" />
+    <Compile Include="Audio\OpenAlAudioBuffer.cs" />
     <Compile Include="Audio\SoundProcess.cs" />
     <Compile Include="Eventing\EventManager.cs" />
     <Compile Include="Eventing\Events\EventData_New_Actor.cs" />

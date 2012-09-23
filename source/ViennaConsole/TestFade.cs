@@ -13,19 +13,19 @@ namespace ViennaConsole
     {
         public void Execute()
         {
-            GlobalAudio.Register(new NAudioSound(new NAudio.Wave.DirectSoundOut()));
-            GlobalAudio.Instance.Initialize();
+            GlobalAudio.Register(new OpenAlAudio()).Initialize();            
             var manager = new ProcessManager();
             //Currently skipping resource streams 
-            var sythn = new Resource(new ResourceData(1000, @"Assets\ambient.wav", "wav"), null);
-            var synth1 = new SoundProcess(sythn, 0, true);
+            const string soundPath = @"assets\ambient.wav";
+            var memoryStream = new System.IO.MemoryStream(System.IO.File.ReadAllBytes(soundPath));
+            var sythn = new Resource(new ResourceData(1000, soundPath, "wav"), memoryStream);
+            var synth1 = new SoundProcess(sythn, SoundType.Background, 0, false);
             manager.AttachProcess(synth1);
             var fade = new FadeProcess(synth1, 5000, 50);
 
             manager.AttachProcess(fade);
 
-            Helper.Loop(30, 1000, (delta) => manager.UpdateProcesses(delta));
-
+            Helper.Loop(8, 1000, (delta) => manager.UpdateProcesses(delta));
         }
     }
 }

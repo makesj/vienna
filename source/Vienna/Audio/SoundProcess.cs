@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Vienna.Resources;
 
 namespace Vienna.Audio
@@ -13,13 +10,14 @@ namespace Vienna.Audio
         protected IAudioBuffer _audioBuffer { get; set; }
         protected int _volume { get; set; }
         protected bool _isLooping { get; set; }
+        public SoundType AudioType { get; protected set; }
 
-        public SoundProcess(Resource resource, int volume, bool looping)
+        public SoundProcess(Resource resource, SoundType type, int volume, bool looping)
         {
             _soundResource = resource;
             _volume = volume;
             _isLooping = looping;
-
+            AudioType = type;
             InitializeVolume();            
         }
 
@@ -43,11 +41,12 @@ namespace Vienna.Audio
 
         protected void InitializeVolume()
         {
-
+            //TODO: add in initialize Volume code to tie in with GUI
         }
 
         public int GetLengthMilli()
         {
+           //TODO add in length when when have a SoundResource
             throw new NotImplementedException();
         }
 
@@ -71,10 +70,10 @@ namespace Vienna.Audio
         public override void OnUpdate(long delta)
         {
             if (!IsPlaying())
-            {                
+            {
                 Logger.Debug("SoundProcess onUpdate succedding");
-                Succeed();                
-            }
+                Succeed();
+            }            
         }
 
         public bool IsPlaying()
