@@ -29,8 +29,8 @@ namespace Vienna.SharpScript
             _parameters.GenerateInMemory = true;
             _parameters.GenerateExecutable = false;
 #endif
-            _parameters.ReferencedAssemblies.Add("system.dll");
-            _parameters.ReferencedAssemblies.Add("system.core.dll");
+            _parameters.ReferencedAssemblies.Add("System.dll");
+            _parameters.ReferencedAssemblies.Add("System.Core.dll");
             _parameters.ReferencedAssemblies.Add("Vienna.dll");
             _parameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll");
 
