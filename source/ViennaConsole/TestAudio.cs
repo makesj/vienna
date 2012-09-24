@@ -23,6 +23,7 @@ namespace ViennaConsole
         public void Execute()
         {
             GlobalAudio.Register(new OpenAlAudio()).Initialize();
+            TestSkippingAround();
             PlayingMultipleSounds();
             TestFade();            
             TestStopAllSounds();
@@ -113,6 +114,40 @@ namespace ViennaConsole
                 Console.ReadLine();
                 EventManager.Instance.TriggerEvent(audioEvent);
                 Manager.UpdateProcesses(delta);                                               
+            });
+            GlobalAudio.Instance.Shutdown();
+        }
+
+        private void TestSkippingAround()
+        {
+            var Manager = new ProcessManager();
+            Logger.Debug("Testing TestSkippingAround\n");
+            var resource = CreateResourceFor(ambientWav);
+
+            var buffer = GlobalAudio.Instance.InitAudioBuffer(resource);
+            buffer.Play(100, true);
+
+            long totalTime = 0;
+            const long totalLength = 1234832;
+            Helper.Loop(5, 1000, (delta) => {
+                totalTime += delta;                
+                if (totalTime <= 1000)
+                {
+                    buffer.SetPosition((long)(totalLength * .90));
+                }
+                else if (totalTime <= 2500)
+                {
+                    buffer.SetPosition((long)(totalTime * .125));
+                }
+                else if (totalTime <= 4000)
+                {
+                    buffer.SetPosition((long)((totalLength * .125 * 3.5)));
+                }
+                else
+                {
+                    buffer.SetPosition(0);
+                }
+                Console.WriteLine("Buffer at :{0}", buffer.GetProgress());
             });
             GlobalAudio.Instance.Shutdown();
         }
