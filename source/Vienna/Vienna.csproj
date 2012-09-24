@@ -70,6 +70,7 @@
     <Compile Include="Actors\ScriptComponent.cs" />
     <Compile Include="Actors\TransformComponent.cs" />
     <Compile Include="Audio\Audio.cs" />
+    <Compile Include="Audio\GlobalAudio.cs" />
     <Compile Include="Audio\SoundType.cs" />
     <Compile Include="Audio\FadeProcess.cs" />
     <Compile Include="Audio\AudioBuffer.cs" />

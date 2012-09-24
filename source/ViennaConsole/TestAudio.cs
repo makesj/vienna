@@ -19,13 +19,14 @@ namespace ViennaConsole
         const string geeWav = @"assets\Gee.wav";
         const string waaWav = @"assets\waa.wav";
 
-        readonly ProcessManager Manager = new ProcessManager();
+        
         public void Execute()
         {
             GlobalAudio.Register(new OpenAlAudio()).Initialize();
             PlayingMultipleSounds();
-            TestFade();
-            TestPlaySoundEvent();     
+            TestFade();            
+            TestStopAllSounds();
+            TestPlaySoundEvent();
         }
 
         private Resource CreateResourceFor(string filepath)
@@ -34,22 +35,50 @@ namespace ViennaConsole
             return new Resource(new ResourceData(1000, filepath, "wav"), memory);            
         }
 
+        private void TestStopAllSounds()
+        {
+            var Manager = new ProcessManager();
+            Logger.Debug("Testing TestStopAllSounds\n");
+            //Currently skipping resource streams so have to reread the streams                                                 
+            var waa = new SoundProcess(CreateResourceFor(waaWav), SoundType.Background, 50, true);
+            Manager.AttachProcess(waa);
+            Manager.UpdateProcesses(1000);
+            Console.WriteLine("Press Enter to Pause All Sounds");
+            Console.ReadLine();
+            GlobalAudio.Instance.PauseAllSounds();
+            Manager.UpdateProcesses(1000);
+            Console.WriteLine("Hear anything? Hopefully not");
+            Console.WriteLine("Press Enter to Play all sounds");
+            Console.ReadLine();
+            GlobalAudio.Instance.ResumeAllSounds();
+            Manager.UpdateProcesses(1000);
+            Console.WriteLine("Hear anything? Hopefully so");
+            Console.WriteLine("Press Enter to Shutdown");
+            Console.ReadLine();
+            GlobalAudio.Instance.Shutdown();
+            Manager.UpdateProcesses(1000);
+            Console.WriteLine("Hear anything? Hopefully not");
+        }
+
         private void TestFade()
         {
-            Logger.Debug("Testing Fade Process");
+            var Manager = new ProcessManager();
+            Logger.Debug("Testing Fade Process\n");
             var sythn = CreateResourceFor(ambientWav);
             var synth1 = new SoundProcess(sythn, SoundType.Background, 0, false);
             Manager.AttachProcess(synth1);
-            var fade = new FadeProcess(synth1, 5000, 50);
+            var fade = new FadeProcess(synth1, 5000, 100);
 
             Manager.AttachProcess(fade);
 
             Helper.Loop(8, 1000, (delta) => Manager.UpdateProcesses(delta));
+            GlobalAudio.Instance.Shutdown();
         }
 
         private void PlayingMultipleSounds()
         {
-            Logger.Debug("Testing PlayingMultipleSounds");
+            var Manager = new ProcessManager();
+            Logger.Debug("Testing PlayingMultipleSounds\n");
             //Currently skipping resource streams so have to reread the streams                                                 
             var synth1 = new SoundProcess(CreateResourceFor(ambientWav), SoundType.Background, 100, false);
             var synth3 = new SoundProcess(CreateResourceFor(ambientWav), SoundType.Background, 40, false);
@@ -62,12 +91,14 @@ namespace ViennaConsole
             Manager.AttachProcess(synth1);
             Manager.AttachProcess(delay);
 
-            Helper.Loop(12, 1000, (delta) => Manager.UpdateProcesses(delta));    
+            Helper.Loop(12, 1000, (delta) => Manager.UpdateProcesses(delta));
+            GlobalAudio.Instance.Shutdown();
         }
 
         private void TestPlaySoundEvent()
         {
-            Logger.Debug("Testing TestPlaySoundEvent");
+            var Manager = new ProcessManager();
+            Logger.Debug("Testing TestPlaySoundEvent\n");
 
             var audioEvent = new EventData_Play_Sound(waaWav);
             EventManager.Instance.AddListener<EventData_Play_Sound>(EventData_Play_Sound.Type, (eventData) =>
@@ -75,16 +106,15 @@ namespace ViennaConsole
                 var synth1 = new SoundProcess(CreateResourceFor(eventData.SoundResource), SoundType.Effect, 80, false);
                 Manager.AttachProcess(synth1);
             });
-            Helper.Loop(3, 1000, (delta) =>
+            Helper.Loop(2, 1000, (delta) =>
             {
+                Manager.UpdateProcesses(delta);
                 Console.WriteLine("Press Enter to Fire a sound");
                 Console.ReadLine();
                 EventManager.Instance.TriggerEvent(audioEvent);
-                Manager.UpdateProcesses(delta);
-                //give the sound some time to finish
-                Thread.Sleep(2000);
-                Manager.UpdateProcesses(delta);
+                Manager.UpdateProcesses(delta);                                               
             });
+            GlobalAudio.Instance.Shutdown();
         }
     }       
 }

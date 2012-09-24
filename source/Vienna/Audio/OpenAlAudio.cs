@@ -50,7 +50,8 @@ namespace Vienna.Audio
         {
             var openAlBuffer = audioBuffer as OpenAlAudioBuffer;
             AL.DeleteSource(openAlBuffer.SourceId);
-            AL.DeleteBuffer(openAlBuffer.BufferId);            
+            AL.DeleteBuffer(openAlBuffer.BufferId);                        
+            AllSamples.Remove(audioBuffer);
         }
 
         public override bool Initialize()
@@ -58,6 +59,7 @@ namespace Vienna.Audio
             try
             {
                 _audioContext = new AudioContext();
+                Initialized = true;
             }
             catch (Exception e)
             {

@@ -76,7 +76,7 @@ namespace Vienna.Audio
 
         public override void OnUpdate(long delta)
         {
-            if (!IsPlaying())
+            if (!IsPlaying() && !IsLooping())
             {
                 Logger.Debug("SoundProcess onUpdate succedding");
                 Succeed();
@@ -127,7 +127,6 @@ namespace Vienna.Audio
             }
         }
 
-
         public void Play(int volume, bool looping)
         {
             if (volume < 0 || volume > 100)
@@ -152,7 +151,6 @@ namespace Vienna.Audio
             }
         }
 
-
         public float GetProgress()
         {
             if (_audioBuffer == null)
@@ -163,13 +161,11 @@ namespace Vienna.Audio
             return _audioBuffer.GetProgress();
         }        
 
-
         public bool IsSoundValid()
         {
             return _soundResource != null;
         }
         
-
         public bool IsLooping()
         {
             return _audioBuffer != null && _audioBuffer.IsLooping(); 

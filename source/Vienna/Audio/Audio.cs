@@ -7,8 +7,6 @@ namespace Vienna.Audio
 {
     public abstract class Audio : IAudio
     {        
-        protected bool _shuttingDown = false;
-
         public Audio()
         {
             AllPaused = false;
@@ -74,32 +72,16 @@ namespace Vienna.Audio
         }
         
         public void Shutdown()
-        {
-            if (!_shuttingDown)
+        {                           
+            for (int i = 0, j = AllSamples.Count; i < j; i++)
             {
-                _shuttingDown = true;                
-                for (int i = 0, j = AllSamples.Count; i < j; i++)
-                {
-                    var buffer = AllSamples[0];
-                    buffer.Stop();
-                    AllSamples.RemoveAt(0);
-                }
-            }
-            
-
+                var buffer = AllSamples[0];
+                buffer.Stop();
+                AllSamples.RemoveAt(0);
+            }                       
         }
         #endregion IAudio
     }
 
-    public static class GlobalAudio
-    {
-        private static IAudio _instance;
-        public static IAudio Instance {get {return _instance;}}
-        public static IAudio Register(IAudio audio)
-        {
-            _instance = audio;
-            return Instance;
-        }
-        
-    }
+    
 }
