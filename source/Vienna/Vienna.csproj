@@ -80,6 +80,7 @@
     <Compile Include="Audio\SoundProcess.cs" />
     <Compile Include="Eventing\EventManager.cs" />
     <Compile Include="Eventing\Events\EventData_New_Actor.cs" />
+    <Compile Include="Eventing\Events\EventData_Play_Sound.cs" />
     <Compile Include="Eventing\GameEventHandler.cs" />
     <Compile Include="Eventing\IEventData.cs" />
     <Compile Include="Eventing\IEventManager.cs" />

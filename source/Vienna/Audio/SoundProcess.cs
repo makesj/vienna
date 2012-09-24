@@ -27,7 +27,7 @@ namespace Vienna.Audio
             {
                 Stop();
             }
-
+            
             if (_audioBuffer != null)
             {
                 GlobalAudio.Instance.ReleaseAudioBuffer(_audioBuffer);
@@ -48,6 +48,13 @@ namespace Vienna.Audio
         {
            //TODO add in length when when have a SoundResource
             throw new NotImplementedException();
+        }
+
+        public override void OnSuccess()
+        {
+            base.OnSuccess();
+            GlobalAudio.Instance.ReleaseAudioBuffer(_audioBuffer);
+            _audioBuffer = null;
         }
 
         public override void OnInit()
@@ -154,7 +161,7 @@ namespace Vienna.Audio
             }
 
             return _audioBuffer.GetProgress();
-        }
+        }        
 
 
         public bool IsSoundValid()
