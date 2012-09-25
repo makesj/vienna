@@ -6,8 +6,6 @@ namespace Vienna.Eventing
 {
     public class EventManager : IEventManager
     {
-        // TODO: 1. Make event queue a list of lists of events
-        // TODO: 2. Implement Update method
 
         #region Singleton Instance
 
@@ -28,7 +26,7 @@ namespace Vienna.Eventing
             EventDelegateMap = new Dictionary<long, List<MulticastDelegate>>();
 			EventQueue = new List<List<IEventData>>();
 			
-			for (int i = 0; i < MAX_QUEUES; i++)
+			for (var i = 0; i < MAX_QUEUES; i++)
 			{
 				EventQueue.Add(new List<IEventData>());
 			}
@@ -100,8 +98,6 @@ namespace Vienna.Eventing
 
             Logger.Debug("Events: Attempting to trigger event {0}", eventData.Name);
 
-            // TODO: Process the active queue.
-
             if (EventDelegateMap.ContainsKey(eventData.EventType))
             {
                 foreach (var eventDelegate in EventDelegateMap[eventData.EventType])
@@ -123,7 +119,6 @@ namespace Vienna.Eventing
 
             if (EventDelegateMap.ContainsKey(eventData.EventType))
             {
-                // TODO: Implement active queuing.
 				EventQueue[activeQueue].Add(eventData);
                 Logger.Debug("Events: Successfully queued event: {0}", eventData.Name);
                 success = true;
@@ -144,7 +139,6 @@ namespace Vienna.Eventing
 			if (EventDelegateMap.ContainsKey(eventType))
 			{
 				var eventQueue = EventQueue[activeQueue];
-				var events = EventQueue[activeQueue].Where(x => x.EventType == eventType);
 				
 				if (allOfType) 
 				{
@@ -207,7 +201,7 @@ namespace Vienna.Eventing
 			var queueFlushed = EventQueue[queueToProcess].Count == 0;
 			if (!queueFlushed)
 			{
-				for (int i = EventQueue[queueToProcess].Count; i > 0; i--)
+				for (var i = EventQueue[queueToProcess].Count; i > 0; i--)
 				{
 					// Does a copy, maybe not the best way to do it.
 					EventQueue[activeQueue].Insert(0, EventQueue[queueToProcess][i]);
