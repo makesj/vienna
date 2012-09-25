@@ -14,7 +14,8 @@ namespace Vienna.Eventing.Events
 
         public EventData_New_Actor(long actorId, long gameViewId)
         {
-            Timestamp = DateTime.Now.Ticks;
+			// TODO Move tick calculation to a helper.
+            Timestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
             ActorId = actorId;
             GameViewId = gameViewId;
         }
