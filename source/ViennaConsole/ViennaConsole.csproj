@@ -72,6 +72,7 @@
     <Compile Include="TestActors.cs" />
     <Compile Include="TestAudio.cs" />
     <Compile Include="TestEvents.cs" />
+    <Compile Include="TestInput.cs" />
     <Compile Include="TestProcess.cs" />
     <Compile Include="TestResources.cs" />
     <Compile Include="TestScripting.cs" />

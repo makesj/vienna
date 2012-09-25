@@ -80,6 +80,7 @@
     <Compile Include="Eventing\GameEventHandler.cs" />
     <Compile Include="Eventing\IEventData.cs" />
     <Compile Include="Eventing\IEventManager.cs" />
+    <Compile Include="Input\IKeyboardHandler.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Processes\DelayProcess.cs" />
     <Compile Include="Processes\ProcessCounter.cs" />
