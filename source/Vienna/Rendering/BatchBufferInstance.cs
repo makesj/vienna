@@ -22,8 +22,23 @@ namespace Vienna.Rendering
 
         public bool Changed
         {
-            get { return Actor.RenderComponent.Changed; }
-            set { Actor.RenderComponent.Changed = value; }
+            get
+            {
+                var r = Actor.CanRender ? Actor.RenderComponent.Changed : false;
+                var t = Actor.CanTranform ? Actor.TransformComponent.Changed : false;
+                return t || r;
+            }
+            set
+            {
+                if(Actor.CanRender)
+                {
+                    Actor.RenderComponent.Changed = value;
+                }
+                if (Actor.CanTranform)
+                {
+                    Actor.TransformComponent.Changed = value;
+                }
+            }
         }
 
         public Vector2[] Vertices
@@ -47,11 +62,6 @@ namespace Vienna.Rendering
             Actor = actor;
             Index = index;
             Length = length;
-        }
-
-        public void BindBuffer(BatchBuffer buffer)
-        {
-            Actor.RenderComponent.Buffer = buffer;
         }
 
         public Matrix4 GetTransform()

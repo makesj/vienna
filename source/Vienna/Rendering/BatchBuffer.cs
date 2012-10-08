@@ -10,6 +10,8 @@ namespace Vienna.Rendering
         private byte[] _blocks;
 
         public int BufferSize { get; private set; }
+        public int VertexPerObject { get; private set; }
+        public int MaxObjects { get; private set; }
         public RenderPass RenderPass { get; private set; }
         public Batch Target { get; private set; }
 
@@ -17,14 +19,20 @@ namespace Vienna.Rendering
         protected Shader Shader { get; private set; }
         protected TextureAtlas Atlas { get; private set; }
 
-        protected int Length;
         protected int Vbohandle;
         protected int Vbahandle;
+        protected int Ibohandle;
         
-
-        protected BatchBuffer(int size, RenderPass pass, Batch target, Shader shader, TextureAtlas atlas)
+        public int SizeInBytes
         {
-            BufferSize = size;
+            get { return Instances.Count*VertexPerObject*Vertex.SizeInBytes; }
+        }
+
+        protected BatchBuffer(int maxObjects, int objectSize, RenderPass pass, Batch target, Shader shader, TextureAtlas atlas)
+        {
+            BufferSize = maxObjects * objectSize;
+            VertexPerObject = objectSize;
+            MaxObjects = objectSize;
             RenderPass = pass;
             Target = target;
             Shader = shader;
@@ -38,16 +46,7 @@ namespace Vienna.Rendering
 
         public abstract void Render(double time, Camera camera);
 
-        public int Allocate()
-        {
-            for (int index = 0; index < _blocks.Length; index++)
-            {
-                if (_blocks[index] != 0) continue;
-                _blocks[index] = 1;
-                return index;
-            }
-            return -1;
-        }
+        public abstract void Process(BatchBufferInstance instance, Camera camera);
 
         public void Add(Actor actor)
         {
@@ -59,49 +58,43 @@ namespace Vienna.Rendering
             }
 
             var instance = new BatchBufferInstance(actor, index, 0);
-            instance.BindBuffer(this);
             Instances.Add(instance.Id, instance);
         }
 
-        public void Release(Actor actor)
-        {
-            Release(actor.Id);
-        }
-
-        public void Release(int id)
+        public void Remove(Actor actor)
         {
             //free the block and remove the id reference
-            var instance = Instances[id];
+            var instance = Instances[actor.Id];
 
-            _blocks[instance.Index] = 0;
+            Release(instance.Index);
 
             Instances.Remove(instance.Id);
             
             //clear the gpu memory
-            var temp = new Vertex[6];
-            var vertexTotalBytes = new IntPtr(Vertex.SizeInBytes * temp.Length);
-            var vertexOffestBytes = new IntPtr(Vertex.SizeInBytes * instance.Index);
+            var temp = new Vertex[VertexPerObject];
+            for (var i = 0; i < temp.Length; i++)
+            {
+                temp[i] = Vertex.Zero;
+            }
             
-
-            GL.BufferSubData(BufferTarget.ArrayBuffer, vertexOffestBytes, vertexTotalBytes, IntPtr.Zero);
+            BufferData(instance, temp);
         }
-
-        public abstract void Process(BatchBufferInstance instance);
 
         public void Destroy()
         {
             Instances.Clear();
             _blocks = null;
             BufferSize = 0;
-            GlHelper.DeleteVertexArray(Vbahandle);
-            GlHelper.DeleteBuffer(Vbohandle);
-        }
+            GL.DeleteBuffer(Vbohandle);
+            GL.DeleteVertexArray(Vbahandle);
+            GL.DeleteVertexArray(Ibohandle);
+       }
 
-        public void Update()
+        public void Update(Camera camera)
         {
             foreach (var instance in Instances.Values)
             {
-                Process(instance);
+                Process(instance, camera);
             }
         }
 
@@ -110,14 +103,21 @@ namespace Vienna.Rendering
             Shader.Bind();
             Atlas.Bind();
             GL.BindVertexArray(Vbahandle);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, Ibohandle);
             GL.BindBuffer(BufferTarget.ArrayBuffer, Vbohandle);
         }
 
         protected void BufferData(BatchBufferInstance instance, Vertex[] vertices)
         {
-            UpdateBufferLength(instance, vertices);
+            if (vertices.Length != VertexPerObject)
+            {
+                Console.WriteLine("{0} instance contains invalid amount of vertices", Target.ToString("g"));
+                return;
+            }
 
-            var vertexTotalBytes = new IntPtr(Vertex.SizeInBytes * instance.Length);
+            instance.Length = vertices.Length;
+
+            var vertexTotalBytes = new IntPtr(Vertex.SizeInBytes * vertices.Length);
             var vertexOffsetBytes = new IntPtr(Vertex.SizeInBytes * instance.Offset);
 
             GL.BufferSubData(BufferTarget.ArrayBuffer, vertexOffsetBytes, vertexTotalBytes, vertices);
@@ -125,18 +125,37 @@ namespace Vienna.Rendering
             instance.Changed = false;
         }
 
-        private void UpdateBufferLength(BatchBufferInstance instance, Vertex[] vertices)
+        private int Allocate()
         {
-            if (instance.Length != vertices.Length)
+            for (var index = 0; index < _blocks.Length; index++)
             {
-                Length -= instance.Length;
-                Length += vertices.Length;
-                instance.Length = vertices.Length;
-                if (Length > BufferSize)
+                if (_blocks[index] != 0) continue;
+                _blocks[index] = 1;
+                return index;
+            }
+            return -1;
+        }
+
+        private void Release(int index)
+        {
+            _blocks[index] = 0;
+        }
+
+        protected int[] BuildIndices(int amount, int[] template, int stride)
+        {
+            var indices = new int[amount * template.Length];
+            var counter = 0;
+
+            for (var i = 0; i < amount; i++)
+            {
+                for (var j = 0; j < template.Length; j++)
                 {
-                    Console.WriteLine("{0} buffer out of memory", Target.ToString("g"));
+                    indices[counter] = template[j] + i * stride;
+                    counter++;
                 }
             }
+
+            return indices;
         }
     }
 }

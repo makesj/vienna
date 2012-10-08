@@ -40,8 +40,6 @@ namespace Vienna.Actors
             var spinner = new SpinnerComponent();
             actor.AddComponent(spinner);
 
-            actor.Initialize();
-
             return actor;
         }
 
@@ -51,8 +49,6 @@ namespace Vienna.Actors
 
             var map = new MapComponent();
             actor.AddComponent(map);
-
-            actor.Initialize();
 
             return actor;
         }

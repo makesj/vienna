@@ -7,7 +7,7 @@ namespace Vienna.Actors
         Vector3 Position { get; }
         float ScaleFactor { get; }
         float Rotation { get; }
-        bool Changed { get; }
+        bool Changed { get; set; }
         Matrix4 GetTransform();
     }
 }

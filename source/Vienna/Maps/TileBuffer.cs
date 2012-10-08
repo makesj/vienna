@@ -5,10 +5,12 @@ namespace Vienna.Maps
 {
     public class TileBuffer : BatchBuffer
     {
-        private const int Size = 5000;
+        private const int MaxTiles = 2000;
+        private const int VertexPerTile = 4;
+        private readonly int[] _indexTemplate = { 0, 1, 2, 2, 1, 3 };
 
-        public TileBuffer(Shader shader, TextureAtlas atlas) : 
-            base(Size, RenderPass.Map, Batch.Tile, shader, atlas)
+        public TileBuffer(Shader shader, TextureAtlas atlas) :
+            base(MaxTiles, VertexPerTile, RenderPass.Map, Batch.Tile, shader, atlas)
         {
         }
 
@@ -16,6 +18,9 @@ namespace Vienna.Maps
         {
             var temp = new Vertex[BufferSize];
             Vbohandle = GlHelper.CreateBuffer(temp, BufferTarget.ArrayBuffer, BufferUsageHint.StaticDraw);
+
+            var indices = BuildIndices(BufferSize, _indexTemplate, VertexPerObject);
+            Ibohandle = GlHelper.CreateBuffer(indices, BufferTarget.ElementArrayBuffer, BufferUsageHint.StaticDraw);
 
             GlHelper.ReleaseBuffers();
 
@@ -61,17 +66,17 @@ namespace Vienna.Maps
             Vbahandle = GlHelper.CreateVertexArray(attributes);
         }
 
+        public override void Process(BatchBufferInstance instance, Camera camera)
+        {
+
+        }
+
         public override void Render(double time, Camera camera)
         {
             Shader.SetUniformMatrix4("projection_matrix", ref camera.ProjectionMatrix);
             Shader.SetUniformMatrix4("view_matrix", ref camera.ViewMatrix);
 
-            GL.DrawArrays(BeginMode.TriangleStrip, 0, Length); 
-        }
-
-        public override void Process(BatchBufferInstance instance)
-        {
-            
+            //GL.DrawArrays(BeginMode.TriangleStrip, 0, MaxTiles); 
         }
 
         public static TileBuffer CreateTestObject()

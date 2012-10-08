@@ -5,7 +5,9 @@ namespace Vienna.Input
 {
     public class InputManager
     {
-        public void HandleInput()
+        private double _destroyCooldown;
+
+        public void HandleInput(double time)
         {
             var keyboard = Keyboard.GetState();
 
@@ -46,11 +48,25 @@ namespace Vienna.Input
             if (TestEvents.CameraRotate != null) TestEvents.CameraRotate(rotation);
             if (TestEvents.CameraZoom != null) TestEvents.CameraZoom(zoom);
 
+            if (_destroyCooldown > 0) _destroyCooldown = Clamp(_destroyCooldown - time);
+            if (keyboard[Key.Space])
+            {
+                if (_destroyCooldown == 0)
+                {
+                    if (TestEvents.DestroyActor != null) TestEvents.DestroyActor();
+                    _destroyCooldown = 0.2;
+                }                                
+            }
 
             if (keyboard[Key.Escape])
             {
                 if (TestEvents.ExitGame != null) TestEvents.ExitGame();
             }
+        }
+
+        private double Clamp(double value)
+        {
+            return value < 0 ? 0 : value;
         }
     }
 }

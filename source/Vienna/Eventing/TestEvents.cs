@@ -8,6 +8,8 @@ namespace Vienna.Eventing
         public static Action<float> CameraRotate;
         public static Action<float> CameraZoom;
 
+        public static Action DestroyActor;
+
         public static Action ExitGame;
     }
 }

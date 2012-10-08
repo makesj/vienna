@@ -44,7 +44,6 @@ namespace Vienna.Sprites
 
         public void Destroy()
         {
-            if (Buffer != null) Buffer.Release(Parent);
         }
     }
 }

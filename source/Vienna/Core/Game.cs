@@ -17,7 +17,7 @@ namespace Vienna.Core
         public void Update(double time)
         {
             Camera.Transform();
-            InputManager.HandleInput();
+            InputManager.HandleInput(time);
             SceneGraph.Update(time);
         }
 

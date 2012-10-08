@@ -11,7 +11,7 @@ namespace Vienna.Actors
         public Vector3 Position { get; protected set; }
         public float ScaleFactor { get; protected set; }
         public float Rotation { get; protected set; }
-        public bool Changed { get; protected set; }
+        public bool Changed { get; set; }
 
         private Matrix4 _transform;
 
