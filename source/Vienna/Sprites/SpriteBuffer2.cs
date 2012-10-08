@@ -3,11 +3,11 @@ using Vienna.Rendering;
 
 namespace Vienna.Sprites
 {
-    public class SpriteBuffer : BatchBuffer
+    public class SpriteBuffer2 : BatchBuffer
     {
         private const int Size = 10000;
 
-        public SpriteBuffer(Shader shader, TextureAtlas atlas) : 
+        public SpriteBuffer2(Shader shader, TextureAtlas atlas) : 
             base(Size, RenderPass.Sprite, Batch.Sprite, shader, atlas)
         {
         }
@@ -15,7 +15,10 @@ namespace Vienna.Sprites
         public override void Initialize()
         {
             var temp = new Vertex[BufferSize];
-            Vbohandle = GlHelper.CreateBuffer(temp, BufferTarget.ArrayBuffer, BufferUsageHint.DynamicDraw);
+            Vbohandle = GlHelper.CreateBuffer(temp, BufferTarget.ArrayBuffer, BufferUsageHint.StreamDraw);
+
+            var indices = IndexHelper.BuildIndices(BufferSize, new [] {0, 1, 2, 2, 1, 3});
+            Ibohandle = GlHelper.CreateBuffer(indices, BufferTarget.ElementArrayBuffer, BufferUsageHint.StreamDraw);
 
             GlHelper.ReleaseBuffers();
 
@@ -57,7 +60,6 @@ namespace Vienna.Sprites
             in_texcoord.ShaderAttribName = "in_texcoord";
             attributes[2] = in_texcoord;
             
-
             Vbahandle = GlHelper.CreateVertexArray(attributes);
         }
 
@@ -69,43 +71,44 @@ namespace Vienna.Sprites
             var n = instance.Vertices;
             var t = Atlas.GetFrame(instance.Frame);
 
-            var vertices = new Vertex[4];
+            var mat = instance.GetTransform();
 
-            vertices[0] = new Vertex(v[0].X, v[0].Y, n[0].X, n[0].Y, t[0].X, t[0].Y);
-            vertices[1] = new Vertex(v[1].X, v[1].Y, n[1].X, n[1].Y, t[1].X, t[1].Y);
-            vertices[2] = new Vertex(v[2].X, v[2].Y, n[2].X, n[2].Y, t[2].X, t[2].Y);
-            vertices[3] = new Vertex(v[3].X, v[3].Y, n[3].X, n[3].Y, t[3].X, t[3].Y);
+            var vertices = new Vertex[v.Length];
 
+            for (var i = 0; i < v.Length; i++)
+            {
+                var tv = v[i].Transform(ref mat);
+                var nv = n[i].Transform(ref mat);
+                vertices[i] = new Vertex(tv.X, tv.Y, nv.X, nv.Y, t[i].X, t[i].Y);
+            }
+            
             BufferData(instance, vertices);
         }
 
         public override void Render(double time, Camera camera)
         {
-            foreach (var instance in Instances.Values)
-            {
-                if(!instance.CanTransform) continue;
+            if(Instances.Count == 0) return;
 
-                var model = instance.GetTransform();
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, Ibohandle);
 
-                Shader.SetUniformMatrix4("model_matrix", ref model);
-                Shader.SetUniformMatrix4("projection_matrix", ref camera.ProjectionMatrix);
-                Shader.SetUniformMatrix4("view_matrix", ref camera.ViewMatrix);
+            Shader.SetUniformMatrix4("projection_matrix", ref camera.ProjectionMatrix);
+            Shader.SetUniformMatrix4("view_matrix", ref camera.ViewMatrix);
 
-                GL.DrawArrays(BeginMode.TriangleStrip, instance.Offset, instance.Length);    
-            }          
+            GL.DrawElements(BeginMode.Triangles, Size*6, DrawElementsType.UnsignedInt, 0);
         }
 
-        public static SpriteBuffer CreateTestObject()
+        public static SpriteBuffer2 CreateTestObject()
         {
             var tex = Textures.Instance.Items[Data.Images.TerrainDebug];
             var atlas = new TextureAtlas(4, 4, tex, 64);
 
-            var shader = Shaders.Instance.Items[Data.Shaders.SpriteName];
+            var shader = Shaders.Instance.Items[Data.Shaders.TileName];
 
-            var buffer = new SpriteBuffer(shader, atlas);
+            var buffer = new SpriteBuffer2(shader, atlas);
             buffer.Initialize();
 
             return buffer;
         }
+    
     }
 }

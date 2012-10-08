@@ -8,6 +8,8 @@ namespace Vienna.Rendering
     [StructLayout(LayoutKind.Sequential)]
     public struct Vertex
     {
+        public static readonly Vertex Zero;
+
         public Vector2 Position;
         public Vector2 Normal;
         public Vector2 Texture;

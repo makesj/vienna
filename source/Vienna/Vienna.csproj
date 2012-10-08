@@ -44,7 +44,6 @@
       <HintPath>..\..\library\OpenTk\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.Compatibility, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\library\OpenTk\OpenTK.Compatibility.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
@@ -93,7 +92,6 @@
     <Compile Include="Eventing\IEventManager.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Logging\Logger.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\MapCluster.cs" />
     <Compile Include="Maps\MapComponent.cs" />
@@ -112,6 +110,7 @@
     <Compile Include="Rendering\BatchBufferTarget.cs" />
     <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Rendering\GlHelper.cs" />
+    <Compile Include="Rendering\IndexHelper.cs" />
     <Compile Include="Rendering\IRenderingComponent.cs" />
     <Compile Include="Rendering\Renderer.cs" />
     <Compile Include="Rendering\RenderPass.cs" />
@@ -121,6 +120,7 @@
     <Compile Include="Rendering\Texture.cs" />
     <Compile Include="Rendering\TextureAtlas.cs" />
     <Compile Include="Rendering\Textures.cs" />
+    <Compile Include="Rendering\Vector2Extensions.cs" />
     <Compile Include="Rendering\Vertex.cs" />
     <Compile Include="Rendering\VertexAttribute.cs" />
     <Compile Include="Resources\CacheStat.cs" />
@@ -139,7 +139,7 @@
     <Compile Include="SharpScript\SharpScriptContext.cs" />
     <Compile Include="SharpScript\SharpScriptProcess.cs" />
     <Compile Include="SharpScript\StringMap.cs" />
-    <Compile Include="Sprites\SpriteBuffer.cs" />
+    <Compile Include="Sprites\SpriteBuffer2.cs" />
     <Compile Include="Sprites\SpriteComponent.cs" />
   </ItemGroup>
   <ItemGroup />

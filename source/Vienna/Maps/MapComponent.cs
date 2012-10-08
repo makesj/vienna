@@ -35,7 +35,6 @@ namespace Vienna.Maps
 
         public void Destroy()
         {
-            if (Buffer != null) Buffer.Release(Parent);
         }
     }
 }

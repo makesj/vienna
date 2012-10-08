@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Vienna.Actors;
+using Vienna.Eventing;
 
 namespace Vienna.Rendering
 {
@@ -13,15 +15,16 @@ namespace Vienna.Rendering
         {
             Renderer = renderer;
             ActorFactory = actorFactory;
+            TestEvents.DestroyActor += DestroyActor;
         }
 
         public void Initialize()
         {
             AddActor(ActorFactory.Create("worldmap"));
             
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 5; i++)
             {
-                for (int j = 0; j < 50; j++)
+                for (int j = 0; j < 5; j++)
                 {
                     AddActor(ActorFactory.Create("animatedsquare", i * 400, j * 400));    
                 }                   
@@ -32,11 +35,22 @@ namespace Vienna.Rendering
         public void AddActor(Actor actor)
         {
             Actors.Add(actor.Id, actor);
+            actor.Initialize();
 
             if (actor.CanRender)
             {
-                Renderer.BindToBuffer(actor.RenderComponent.Target, actor);
+                Renderer.BindActor(actor.RenderComponent.Target, actor);
             }
+        }
+
+        public void RemoveActor(Actor actor)
+        {
+            if (actor.CanRender)
+            {
+                Renderer.UnbindActor(actor.RenderComponent.Target, actor);
+            }
+            actor.Destroy();
+            Actors.Remove(actor.Id);
         }
 
         public void Render(double time, Camera camera)
@@ -52,11 +66,19 @@ namespace Vienna.Rendering
             }
         }
 
+        public void DestroyActor()
+        {
+            var actor = Actors.Values.FirstOrDefault();
+            if(actor == null) return;
+            RemoveActor(actor);
+        }
+
         public void Destroy()
         {
-            foreach (var actor in Actors)
+            var actors = Actors.Values.ToArray();
+            foreach (var actor in actors)
             {
-                actor.Value.Destroy();
+                RemoveActor(actor);
             }
             Actors.Clear();
         }

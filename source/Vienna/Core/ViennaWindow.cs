@@ -43,7 +43,7 @@ namespace Vienna.Core
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
-            //PrintFps(e.Time);
+            PrintFps(e.Time);
             Game.Render(e.Time);
         }
 

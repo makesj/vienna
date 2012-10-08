@@ -53,17 +53,6 @@ namespace Vienna.Rendering
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
         }
 
-
-        public static void DeleteBuffer(int buffer)
-        {
-            GL.DeleteBuffer(buffer);
-        }
-
-        public static void DeleteVertexArray(int vbo)
-        {
-            GL.DeleteVertexArray(vbo);
-        }
-
         private static int GenBuffer(BufferTarget target)
         {
             var bufferId = GL.GenBuffer();

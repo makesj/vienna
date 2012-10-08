@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using Vienna.Actors;
 using Vienna.Maps;
 using Vienna.Sprites;
@@ -24,7 +24,7 @@ namespace Vienna.Rendering
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
             AddBuffer(TileBuffer.CreateTestObject());
-            AddBuffer(SpriteBuffer.CreateTestObject());
+            AddBuffer(SpriteBuffer2.CreateTestObject());
         }
 
         public void AddBuffer(BatchBuffer buffer)
@@ -41,11 +41,18 @@ namespace Vienna.Rendering
             _buffers.Clear();
         }
 
-        public void BindToBuffer(Batch target, Actor actor)
+        public void BindActor(Batch target, Actor actor)
         {
             if(!actor.CanRender) return;
             var buffer = _buffers[target];
             buffer.Add(actor);
+        }
+
+        public void UnbindActor(Batch target, Actor actor)
+        {
+            if (!actor.CanRender) return;
+            var buffer = _buffers[target];
+            buffer.Remove(actor);
         }
 
         public void Render(double time, Camera camera)
@@ -59,7 +66,7 @@ namespace Vienna.Rendering
                 buffer.Render(time, camera);
             }
 
-            GraphicsContext.CurrentContext.SwapBuffers();
+            OpenTK.Graphics.GraphicsContext.CurrentContext.SwapBuffers();
         }
     }
 }

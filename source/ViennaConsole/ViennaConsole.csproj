@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestExperimentalRendering.cs" />
     <Compile Include="TestSharpScriptProcess.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="AssemblyExtensions.cs" />

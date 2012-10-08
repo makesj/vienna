@@ -5,6 +5,7 @@
         Default = 1,
         Tile = 0,
         Sprite = 1,
-        StaticSprite = 2,    
+        StaticSprite = 2,
+        Sprite2 = 3
     }
 }

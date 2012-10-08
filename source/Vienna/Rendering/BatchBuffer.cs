@@ -20,6 +20,7 @@ namespace Vienna.Rendering
         protected int Length;
         protected int Vbohandle;
         protected int Vbahandle;
+        protected int Ibohandle;
         
 
         protected BatchBuffer(int size, RenderPass pass, Batch target, Shader shader, TextureAtlas atlas)
@@ -38,16 +39,7 @@ namespace Vienna.Rendering
 
         public abstract void Render(double time, Camera camera);
 
-        public int Allocate()
-        {
-            for (int index = 0; index < _blocks.Length; index++)
-            {
-                if (_blocks[index] != 0) continue;
-                _blocks[index] = 1;
-                return index;
-            }
-            return -1;
-        }
+        public abstract void Process(BatchBufferInstance instance);
 
         public void Add(Actor actor)
         {
@@ -63,39 +55,33 @@ namespace Vienna.Rendering
             Instances.Add(instance.Id, instance);
         }
 
-        public void Release(Actor actor)
-        {
-            Release(actor.Id);
-        }
-
-        public void Release(int id)
+        public void Remove(Actor actor)
         {
             //free the block and remove the id reference
-            var instance = Instances[id];
+            var instance = Instances[actor.Id];
 
-            _blocks[instance.Index] = 0;
+            Release(instance.Index);
 
             Instances.Remove(instance.Id);
             
             //clear the gpu memory
-            var temp = new Vertex[6];
-            var vertexTotalBytes = new IntPtr(Vertex.SizeInBytes * temp.Length);
-            var vertexOffestBytes = new IntPtr(Vertex.SizeInBytes * instance.Index);
+            var temp = new Vertex[4];
+            for (var i = 0; i < temp.Length; i++)
+            {
+                temp[i] = Vertex.Zero;
+            }
             
-
-            GL.BufferSubData(BufferTarget.ArrayBuffer, vertexOffestBytes, vertexTotalBytes, IntPtr.Zero);
+            BufferData(instance, temp);
         }
-
-        public abstract void Process(BatchBufferInstance instance);
 
         public void Destroy()
         {
             Instances.Clear();
             _blocks = null;
             BufferSize = 0;
-            GlHelper.DeleteVertexArray(Vbahandle);
-            GlHelper.DeleteBuffer(Vbohandle);
-        }
+            GL.DeleteBuffer(Vbohandle);
+            GL.DeleteVertexArray(Vbahandle);
+       }
 
         public void Update()
         {
@@ -127,16 +113,32 @@ namespace Vienna.Rendering
 
         private void UpdateBufferLength(BatchBufferInstance instance, Vertex[] vertices)
         {
-            if (instance.Length != vertices.Length)
+            if (instance.Length == vertices.Length) return;
+
+            Length -= instance.Length;
+            Length += vertices.Length;
+            instance.Length = vertices.Length;
+            if (Length > BufferSize)
             {
-                Length -= instance.Length;
-                Length += vertices.Length;
-                instance.Length = vertices.Length;
-                if (Length > BufferSize)
-                {
-                    Console.WriteLine("{0} buffer out of memory", Target.ToString("g"));
-                }
+                Console.WriteLine("{0} buffer out of memory", Target.ToString("g"));
             }
         }
+
+        private int Allocate()
+        {
+            for (int index = 0; index < _blocks.Length; index++)
+            {
+                if (_blocks[index] != 0) continue;
+                _blocks[index] = 1;
+                return index;
+            }
+            return -1;
+        }
+
+        private void Release(int index)
+        {
+            _blocks[index] = 0;
+        }
+
     }
 }
