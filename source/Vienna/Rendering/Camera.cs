@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using Vienna.Messaging;
+using Vienna.Eventing;
 
 namespace Vienna.Rendering
 {
@@ -17,9 +17,9 @@ namespace Vienna.Rendering
         {
             ZoomFactor = 1.0f;
             Rotation = 0.0f;
-            Events.CameraMove += Move;
-            Events.CameraZoom += Zoom;
-            Events.CameraRotate += Rotate;
+            TestEvents.CameraMove += Move;
+            TestEvents.CameraZoom += Zoom;
+            TestEvents.CameraRotate += Rotate;
         }
 
         public void Move(float x, float y)

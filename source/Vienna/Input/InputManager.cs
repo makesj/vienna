@@ -1,5 +1,5 @@
 ﻿using OpenTK.Input;
-using Vienna.Messaging;
+using Vienna.Eventing;
 
 namespace Vienna.Input
 {
@@ -42,14 +42,14 @@ namespace Vienna.Input
             if (keyboard[Key.A])
                 rotation -= rspeed;
 
-            if (Events.CameraMove != null) Events.CameraMove(cx, cy);
-            if (Events.CameraRotate != null) Events.CameraRotate(rotation);
-            if (Events.CameraZoom != null) Events.CameraZoom(zoom);
+            if (TestEvents.CameraMove != null) TestEvents.CameraMove(cx, cy);
+            if (TestEvents.CameraRotate != null) TestEvents.CameraRotate(rotation);
+            if (TestEvents.CameraZoom != null) TestEvents.CameraZoom(zoom);
 
 
             if (keyboard[Key.Escape])
             {
-                if (Events.ExitGame != null) Events.ExitGame();
+                if (TestEvents.ExitGame != null) TestEvents.ExitGame();
             }
         }
     }

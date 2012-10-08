@@ -1,6 +1,6 @@
 ﻿using System;
 using OpenTK;
-using Vienna.Messaging;
+using Vienna.Eventing;
 
 namespace Vienna.Core
 {
@@ -24,7 +24,7 @@ namespace Vienna.Core
         {
             base.OnLoad(e);
             Game.Load();
-            Events.ExitGame += CloseWindow;
+            TestEvents.ExitGame += CloseWindow;
         }
 
         protected override void OnResize(EventArgs e)

@@ -100,7 +100,7 @@
     <Compile Include="Maps\MapSize.cs" />
     <Compile Include="Maps\Tile.cs" />
     <Compile Include="Maps\TileBuffer.cs" />
-    <Compile Include="Messaging\Events.cs" />
+    <Compile Include="Eventing\TestEvents.cs" />
     <Compile Include="Processes\DelayProcess.cs" />
     <Compile Include="Processes\ProcessCounter.cs" />
     <Compile Include="Processes\ProcessManager.cs" />
@@ -113,7 +113,6 @@
     <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Rendering\GlHelper.cs" />
     <Compile Include="Rendering\IRenderingComponent.cs" />
-    <Compile Include="Rendering\Mesh2D.cs" />
     <Compile Include="Rendering\Renderer.cs" />
     <Compile Include="Rendering\RenderPass.cs" />
     <Compile Include="Rendering\SceneGraph.cs" />
