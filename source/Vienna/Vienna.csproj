@@ -139,7 +139,7 @@
     <Compile Include="SharpScript\SharpScriptContext.cs" />
     <Compile Include="SharpScript\SharpScriptProcess.cs" />
     <Compile Include="SharpScript\StringMap.cs" />
-    <Compile Include="Sprites\SpriteBuffer2.cs" />
+    <Compile Include="Sprites\SpriteBuffer.cs" />
     <Compile Include="Sprites\SpriteComponent.cs" />
   </ItemGroup>
   <ItemGroup />

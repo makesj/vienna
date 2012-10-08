@@ -3,11 +3,11 @@ using Vienna.Rendering;
 
 namespace Vienna.Sprites
 {
-    public class SpriteBuffer2 : BatchBuffer
+    public class SpriteBuffer : BatchBuffer
     {
         private const int Size = 10000;
 
-        public SpriteBuffer2(Shader shader, TextureAtlas atlas) : 
+        public SpriteBuffer(Shader shader, TextureAtlas atlas) : 
             base(Size, RenderPass.Sprite, Batch.Sprite, shader, atlas)
         {
         }
@@ -97,14 +97,14 @@ namespace Vienna.Sprites
             GL.DrawElements(BeginMode.Triangles, Size*6, DrawElementsType.UnsignedInt, 0);
         }
 
-        public static SpriteBuffer2 CreateTestObject()
+        public static SpriteBuffer CreateTestObject()
         {
             var tex = Textures.Instance.Items[Data.Images.TerrainDebug];
             var atlas = new TextureAtlas(4, 4, tex, 64);
 
             var shader = Shaders.Instance.Items[Data.Shaders.TileName];
 
-            var buffer = new SpriteBuffer2(shader, atlas);
+            var buffer = new SpriteBuffer(shader, atlas);
             buffer.Initialize();
 
             return buffer;

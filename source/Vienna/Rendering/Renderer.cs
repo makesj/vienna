@@ -24,7 +24,7 @@ namespace Vienna.Rendering
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
             AddBuffer(TileBuffer.CreateTestObject());
-            AddBuffer(SpriteBuffer2.CreateTestObject());
+            AddBuffer(SpriteBuffer.CreateTestObject());
         }
 
         public void AddBuffer(BatchBuffer buffer)
