@@ -5,10 +5,12 @@ namespace Vienna.Sprites
 {
     public class SpriteBuffer : BatchBuffer
     {
-        private const int Size = 10000;
+        private const int MaxSprites = 2000;
+        private const int VertexPerSprite = 4;
+        private readonly int[] _indexTemplate = {0, 1, 2, 2, 1, 3};
 
-        public SpriteBuffer(Shader shader, TextureAtlas atlas) : 
-            base(Size, RenderPass.Sprite, Batch.Sprite, shader, atlas)
+        public SpriteBuffer(Shader shader, TextureAtlas atlas) : base(
+            MaxSprites, VertexPerSprite, RenderPass.Sprite, Batch.Sprite, shader, atlas)
         {
         }
 
@@ -17,7 +19,7 @@ namespace Vienna.Sprites
             var temp = new Vertex[BufferSize];
             Vbohandle = GlHelper.CreateBuffer(temp, BufferTarget.ArrayBuffer, BufferUsageHint.StreamDraw);
 
-            var indices = IndexHelper.BuildIndices(BufferSize, new [] {0, 1, 2, 2, 1, 3});
+            var indices = BuildIndices(BufferSize, _indexTemplate, VertexPerObject);
             Ibohandle = GlHelper.CreateBuffer(indices, BufferTarget.ElementArrayBuffer, BufferUsageHint.StreamDraw);
 
             GlHelper.ReleaseBuffers();
@@ -63,9 +65,9 @@ namespace Vienna.Sprites
             Vbahandle = GlHelper.CreateVertexArray(attributes);
         }
 
-        public override void Process(BatchBufferInstance instance)
+        public override void Process(BatchBufferInstance instance, Camera camera)
         {
-            if(!instance.Changed) return;
+            if (!instance.Changed) return;
 
             var v = instance.Vertices;
             var n = instance.Vertices;
@@ -89,12 +91,10 @@ namespace Vienna.Sprites
         {
             if(Instances.Count == 0) return;
 
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, Ibohandle);
-
             Shader.SetUniformMatrix4("projection_matrix", ref camera.ProjectionMatrix);
             Shader.SetUniformMatrix4("view_matrix", ref camera.ViewMatrix);
 
-            GL.DrawElements(BeginMode.Triangles, Size*6, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(BeginMode.Triangles, BufferSize, DrawElementsType.UnsignedInt, 0);
         }
 
         public static SpriteBuffer CreateTestObject()

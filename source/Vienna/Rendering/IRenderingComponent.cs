@@ -5,7 +5,6 @@ namespace Vienna.Rendering
 {
     public interface IRenderingComponent : IComponent
     {
-        BatchBuffer Buffer { get; set; }
         Batch Target { get; }
 
         Vector2[] Vertices { get; }

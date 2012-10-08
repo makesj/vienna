@@ -62,7 +62,7 @@ namespace Vienna.Rendering
             foreach (var buffer in _buffers.Values)
             {
                 buffer.Bind();
-                buffer.Update();
+                buffer.Update(camera);
                 buffer.Render(time, camera);
             }
 

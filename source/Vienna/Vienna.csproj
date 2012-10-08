@@ -110,7 +110,6 @@
     <Compile Include="Rendering\BatchBufferTarget.cs" />
     <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Rendering\GlHelper.cs" />
-    <Compile Include="Rendering\IndexHelper.cs" />
     <Compile Include="Rendering\IRenderingComponent.cs" />
     <Compile Include="Rendering\Renderer.cs" />
     <Compile Include="Rendering\RenderPass.cs" />

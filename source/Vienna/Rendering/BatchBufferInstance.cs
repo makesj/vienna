@@ -64,11 +64,6 @@ namespace Vienna.Rendering
             Length = length;
         }
 
-        public void BindBuffer(BatchBuffer buffer)
-        {
-            Actor.RenderComponent.Buffer = buffer;
-        }
-
         public Matrix4 GetTransform()
         {
             return Actor.TransformComponent.GetTransform();
