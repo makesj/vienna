@@ -1,21 +1,18 @@
 ﻿using System;
+using Vienna.Actors;
 
-namespace Vienna.Actors2
+namespace Vienna.Audio
 {
-    public class AudioComponent : IComponent
+    public class AudioComponent 
     {
         protected bool loop { get; set; }
         protected int volume { get; set; }
         protected long FadeTime { get; set; }
         protected string audioResource{get;set;}
-        public Actor Owner { get; set; }
+        public Actor Parent { get; set; }
 
-        public string Id
-        {
-            get { return "audio"; }
-        }
 
-        public void Init()
+        public void Initialize()
         {
             
         }
@@ -25,7 +22,7 @@ namespace Vienna.Actors2
             
         }
 
-        public void Update(int delta)
+        public void Update(double time)
         {
             
         }

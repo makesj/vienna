@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using Vienna.Actors;
 
-namespace Vienna.Actors2
+namespace Vienna.Actors
 {
-    public class AiComponent : IComponent
+    public class ScriptComponent 
     {
         //================================================
         // Boilerplate properties
         //================================================
 
-        public const string ComponentId = "ai";
+        public const string ComponentId = "script";
         public string Id { get { return ComponentId; } }
         public Actor Owner { get; set; }
 
@@ -16,7 +18,7 @@ namespace Vienna.Actors2
         // Component specific properties
         //================================================
 
-        
+        public IDictionary<string, string> ScriptEventHandlers;
 
         //================================================
         // Transform implementation methods
@@ -24,11 +26,17 @@ namespace Vienna.Actors2
 
         public void Init()
         {
-            
         }
 
         public void PostInit()
         {
+            //Owner.RegisterEvent("eventName", HandleEvent);
+        }
+
+        public void HandleEvent(int x)
+        {
+            //var functionName = ScriptEventHandlers["event"];
+            //ScriptManager.Ev
         }
 
         public void Update(int delta)

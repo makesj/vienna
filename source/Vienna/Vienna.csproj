@@ -67,6 +67,7 @@
     <Compile Include="Actors\TransformComponent.cs" />
     <Compile Include="AI\SpinnerComponent.cs" />
     <Compile Include="Audio\Audio.cs" />
+    <Compile Include="Audio\AudioComponent.cs" />
     <Compile Include="Audio\GlobalAudio.cs" />
     <Compile Include="Audio\SoundType.cs" />
     <Compile Include="Audio\FadeProcess.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Resources\ResourceLoader.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="SharpScript\DynamicScriptProxy.cs" />
+    <Compile Include="SharpScript\ScriptComponent.cs" />
     <Compile Include="SharpScript\ScriptProxy.cs" />
     <Compile Include="SharpScript\SharpScriptCompiler.cs" />
     <Compile Include="SharpScript\SharpScriptMarshaller.cs" />
