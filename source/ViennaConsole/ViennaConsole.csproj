@@ -75,8 +75,6 @@
     <Compile Include="TestEvents.cs" />
     <Compile Include="TestProcess.cs" />
     <Compile Include="TestResources.cs" />
-    <Compile Include="TestScripting.cs" />
-    <Compile Include="TestScriptProcess.cs" />
     <Compile Include="TestSharpScript.cs" />
   </ItemGroup>
   <ItemGroup>

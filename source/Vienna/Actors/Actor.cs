@@ -1,60 +1,87 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+﻿using System.Collections.Generic;
+using Vienna.Rendering;
 
 namespace Vienna.Actors
 {
-//test
-    public partial class Actor
+    public class Actor
     {
-        protected IDictionary<string, IComponent> Components { get; set; }
-        public long Id { get; protected set; }
-        public string ActorType { get; protected set; }
+        public IRenderingComponent RenderComponent { get; private set; }
+        public ITransformComponent TransformComponent { get; private set; }
 
-        protected Actor()
+        protected Dictionary<int, IComponent> Components = new Dictionary<int, IComponent>();
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+        public bool IsDestroyed { get; private set; }
+
+        public Actor(int id, string name)
         {
-            Components = new Dictionary<string, IComponent>();
+            Id = id;
+            Name = name;
         }
 
-        protected void Init(JObject json)
+        public T GetComponent<T>(int componentId) where T : class, IComponent
         {
-            ActorType = json["type"].ToString();
+            return Components[componentId] as T;
         }
 
-        public void PostInit()
+        public void AddComponent(IComponent component)
+        {
+            if (Components.ContainsKey(component.Id))
+            {
+                Components[component.Id] = component;
+            }
+            else
+            {
+                Components.Add(component.Id, component);                
+            }
+
+            // Most actors will most likely have rendering and tranform components
+
+            if (component is IRenderingComponent)
+                RenderComponent = component as IRenderingComponent;
+
+            if (component is ITransformComponent)
+                TransformComponent = component as ITransformComponent;
+        }
+
+        public void Initialize()
         {
             foreach (var component in Components)
             {
-                component.Value.PostInit();
+                component.Value.Initialize(this);
             }
         }
 
-        public void Update(int delta)
+        public void Update(double time)
         {
             foreach (var component in Components)
             {
-                component.Value.Update(delta);
+                component.Value.Update(time);
             }
         }
 
         public void Destroy()
         {
-            Components.Clear();
+            foreach (var component in Components)
+            {
+                component.Value.Destroy();
+            }
+            IsDestroyed = true;
         }
 
-        public IComponent GetComponent(string id)
+        public bool CanTranform
         {
-            return Components[id];
+            get { return TransformComponent != null; }
         }
 
-        public JObject Serialize()
+        public bool CanRender
         {
-            throw new NotImplementedException();
+            get { return RenderComponent != null; }
         }
 
-        private void AddComponent(IComponent component)
+        public override string ToString()
         {
-            Components.Add(component.Id, component);
+            return string.Format("{1}({0})", Name, Id);
         }
     }
 }

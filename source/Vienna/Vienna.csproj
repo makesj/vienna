@@ -39,36 +39,33 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\library\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL" />
-    <Reference Include="OpenTK.Compatibility, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL" />
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\library\OpenTk\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Compatibility, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\library\OpenTk\OpenTK.Compatibility.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\library\OpenTk\OpenTK.GLControl.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="IronRuby">
-      <HintPath>..\..\library\IronRuby\IronRuby.dll</HintPath>
-    </Reference>
-    <Reference Include="IronRuby.Libraries">
-      <HintPath>..\..\library\IronRuby\IronRuby.Libraries.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Dynamic">
-      <HintPath>..\..\library\IronRuby\Microsoft.Dynamic.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Scripting">
-      <HintPath>..\..\library\IronRuby\Microsoft.Scripting.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actors\Actor.cs" />
     <Compile Include="Actors\ActorFactory.cs" />
-    <Compile Include="Actors\ActorScriptContext.cs" />
-    <Compile Include="Actors\AiComponent.cs" />
-    <Compile Include="Actors\AudioComponent.cs" />
     <Compile Include="Actors\IComponent.cs" />
-    <Compile Include="Actors\ScriptComponent.cs" />
+    <Compile Include="Actors\ITransformComponent.cs" />
     <Compile Include="Actors\TransformComponent.cs" />
+    <Compile Include="AI\SpinnerComponent.cs" />
     <Compile Include="Audio\Audio.cs" />
     <Compile Include="Audio\GlobalAudio.cs" />
     <Compile Include="Audio\SoundType.cs" />
@@ -79,29 +76,61 @@
     <Compile Include="Audio\OpenAlAudio.cs" />
     <Compile Include="Audio\OpenAlAudioBuffer.cs" />
     <Compile Include="Audio\SoundProcess.cs" />
+    <Compile Include="Core\Bootstrap.cs" />
+    <Compile Include="Core\Game.cs" />
+    <Compile Include="Core\GameSettings.cs" />
+    <Compile Include="Core\Runtime.cs" />
+    <Compile Include="Core\Unloader.cs" />
+    <Compile Include="Core\ViennaWindow.cs" />
+    <Compile Include="Core\WindowSettings.cs" />
+    <Compile Include="Data.cs" />
     <Compile Include="Eventing\EventManager.cs" />
     <Compile Include="Eventing\Events\EventData_New_Actor.cs" />
     <Compile Include="Eventing\Events\EventData_Play_Sound.cs" />
     <Compile Include="Eventing\GameEventHandler.cs" />
     <Compile Include="Eventing\IEventData.cs" />
     <Compile Include="Eventing\IEventManager.cs" />
+    <Compile Include="Input\InputManager.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Maps\Map.cs" />
+    <Compile Include="Maps\MapCluster.cs" />
+    <Compile Include="Maps\MapComponent.cs" />
+    <Compile Include="Maps\MapSize.cs" />
+    <Compile Include="Maps\Tile.cs" />
+    <Compile Include="Maps\TileBuffer.cs" />
+    <Compile Include="Messaging\Events.cs" />
     <Compile Include="Processes\DelayProcess.cs" />
     <Compile Include="Processes\ProcessCounter.cs" />
     <Compile Include="Processes\ProcessManager.cs" />
     <Compile Include="Processes\Process.cs" />
     <Compile Include="Processes\ProcessState.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\BatchBuffer.cs" />
+    <Compile Include="Rendering\BatchBufferInstance.cs" />
+    <Compile Include="Rendering\BatchBufferTarget.cs" />
+    <Compile Include="Rendering\Camera.cs" />
+    <Compile Include="Rendering\GlHelper.cs" />
+    <Compile Include="Rendering\IRenderingComponent.cs" />
+    <Compile Include="Rendering\Mesh2D.cs" />
+    <Compile Include="Rendering\Renderer.cs" />
+    <Compile Include="Rendering\RenderPass.cs" />
+    <Compile Include="Rendering\SceneGraph.cs" />
+    <Compile Include="Rendering\Shader.cs" />
+    <Compile Include="Rendering\Shaders.cs" />
+    <Compile Include="Rendering\Texture.cs" />
+    <Compile Include="Rendering\TextureAtlas.cs" />
+    <Compile Include="Rendering\Textures.cs" />
+    <Compile Include="Rendering\Vertex.cs" />
+    <Compile Include="Rendering\VertexAttribute.cs" />
     <Compile Include="Resources\CacheStat.cs" />
     <Compile Include="Resources\DefaultResourceLoader.cs" />
     <Compile Include="Resources\Resource.cs" />
     <Compile Include="Resources\ResourceCache.cs" />
-    <Compile Include="Resources\ResourceManager.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\ResourceLoader.cs" />
-    <Compile Include="Resources\ResourceData.cs" />
     <Compile Include="Resources\ResourceCatalog.cs" />
-    <Compile Include="Scripting\ScriptManager.cs" />
-    <Compile Include="Scripting\ScriptProcess.cs" />
+    <Compile Include="Resources\ResourceData.cs" />
+    <Compile Include="Resources\ResourceLoader.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="SharpScript\DynamicScriptProxy.cs" />
     <Compile Include="SharpScript\ScriptProxy.cs" />
     <Compile Include="SharpScript\SharpScriptCompiler.cs" />
@@ -109,6 +138,8 @@
     <Compile Include="SharpScript\SharpScriptContext.cs" />
     <Compile Include="SharpScript\SharpScriptProcess.cs" />
     <Compile Include="SharpScript\StringMap.cs" />
+    <Compile Include="Sprites\SpriteBuffer.cs" />
+    <Compile Include="Sprites\SpriteComponent.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

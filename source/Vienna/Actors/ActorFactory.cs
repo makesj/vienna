@@ -1,63 +1,62 @@
 ﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+using Vienna.AI;
+using Vienna.Maps;
+using Vienna.Sprites;
 
 namespace Vienna.Actors
 {
-    public partial class Actor
+    public class ActorFactory
     {
-        public class Factory
+        private static int _lastId;
+
+        private int NextActorId()
         {
-            protected readonly Dictionary<string, Type> ComponentTypes = new Dictionary<string, Type>();
-            private static int _lastActorId;
+            return ++_lastId;
+        }
 
-            public Factory()
+        public Actor Create(string type, float x = 0, float y = 0)
+        {
+            if (type == null) throw new ArgumentNullException("type");
+
+            switch (type)
             {
-                //Register built-in components here
-                RegisterComponent<TransformComponent>(TransformComponent.ComponentId);
-                RegisterComponent<AiComponent>(AiComponent.ComponentId);
-                RegisterComponent<ScriptComponent>(ScriptComponent.ComponentId);
+                case "animatedsquare": return AnimatedSquare(x, y);
+                case "worldmap": return CreateWorldMap();
+                default: throw new Exception("Unkown actor type -> " + type);
             }
+        }
 
-            public Actor Create(JObject json)
-            {
-                var actor = new Actor
-                {
-                    Id = ++_lastActorId
-                };
-                
-                actor.Init(json);
+        private Actor AnimatedSquare(float x, float y)
+        {
+            var actor = new Actor(NextActorId(), "text");
 
-                foreach (var node in json["components"])
-                {
-                    var property = node as JProperty;
-                    var component = ResolveComponent(property.Name);
-                    component.Owner = actor;
-                    //component.Init(node);
-                    actor.AddComponent(component);
-                }
+            var transform = new TransformComponent();
+            transform.Move(x,y);
+            actor.AddComponent(transform);
 
-                actor.PostInit();
+            var sprite = new SpriteComponent();
+            actor.AddComponent(sprite);
 
-                return actor;
-            }
+            var spinner = new SpinnerComponent();
+            actor.AddComponent(spinner);
 
-            public void RegisterComponent<T>(string name) where T : class, IComponent
-            {
-                if (ComponentTypes.ContainsKey(name.ToLower())) return;
-                var type = typeof(T);
-                ComponentTypes.Add(name.ToLower(), type);
-            }
+            actor.Initialize();
 
-            private IComponent ResolveComponent(string name)
-            {
-                if (!ComponentTypes.ContainsKey(name.ToLower()))
-                {
-                    throw new Exception(string.Format("Could not resolve component named '{0}'", name.ToLower()));
-                }
-                var type = ComponentTypes[name.ToLower()];
-                return Activator.CreateInstance(type) as IComponent;
-            }
-        }        
+            return actor;
+        }
+
+        public Actor CreateWorldMap()
+        {
+            var actor = new Actor(NextActorId(), "worldmap");
+
+            var map = new MapComponent();
+            actor.AddComponent(map);
+
+            actor.Initialize();
+
+            return actor;
+        }
+
+
     }
 }

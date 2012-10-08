@@ -1,15 +1,11 @@
-﻿
-namespace Vienna.Actors
+﻿namespace Vienna.Actors
 {
     public interface IComponent
     {
-        Actor Owner { get; set; }
-        string Id { get; }
-        void Init();
-        void PostInit();
-        void Update(int delta);
+        int Id { get; }
+        Actor Parent { get; }
+        void Initialize(Actor parent);
+        void Update(double time);
         void Destroy();
-        void Changed();
-        string Serialize();
     }
 }
