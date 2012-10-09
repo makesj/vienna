@@ -36,10 +36,6 @@ namespace Vienna.Rendering
 
         public void Initialize()
         {
-            var texture1 = new Texture();
-            texture1.Load(Data.Images.Bomb);
-            Items.Add(texture1.Name, texture1);
-
             var texture2 = new Texture();
             texture2.Load(Data.Images.Terrain);
             Items.Add(texture2.Name, texture2);
