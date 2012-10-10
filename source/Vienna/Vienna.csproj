@@ -32,6 +32,9 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BulletSharp">
+      <HintPath>..\..\library\BulletSharp\BulletSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\library\Ionic.Zip\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -39,16 +42,17 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\library\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\library\OpenTk\OpenTK.dll</HintPath>
-    </Reference>
     <Reference Include="OpenTK.Compatibility, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\..\library\OpenTk\OpenTK.Compatibility.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\library\OpenTk\OpenTK.GLControl.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK10, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\..\library\BulletSharp\OpenTK10.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK11">
+      <HintPath>..\..\library\OpenTk\OpenTK11.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -79,13 +83,19 @@
     <Compile Include="Core\Bootstrap.cs" />
     <Compile Include="Core\Game.cs" />
     <Compile Include="Core\GameSettings.cs" />
+    <Compile Include="Core\MatrixHelpers.cs" />
     <Compile Include="Core\Runtime.cs" />
     <Compile Include="Core\Unloader.cs" />
     <Compile Include="Core\ViennaWindow.cs" />
     <Compile Include="Core\WindowSettings.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="Eventing\EventManager.cs" />
+    <Compile Include="Eventing\Events\EventData_Move_Actor.cs" />
     <Compile Include="Eventing\Events\EventData_New_Actor.cs" />
+    <Compile Include="Eventing\Events\EventData_PhysicsCollision.cs" />
+    <Compile Include="Eventing\Events\EventData_PhysicsSeparation.cs" />
+    <Compile Include="Eventing\Events\EventData_PhysicsTrigger_Enter.cs" />
+    <Compile Include="Eventing\Events\EventData_PhysicsTrigger_Leave.cs" />
     <Compile Include="Eventing\Events\EventData_Play_Sound.cs" />
     <Compile Include="Eventing\GameEventHandler.cs" />
     <Compile Include="Eventing\IEventData.cs" />
@@ -99,6 +109,14 @@
     <Compile Include="Maps\Tile.cs" />
     <Compile Include="Maps\TileBuffer.cs" />
     <Compile Include="Eventing\TestEvents.cs" />
+    <Compile Include="Physics\ActorMotionState.cs" />
+    <Compile Include="Physics\BulletDebugDrawer.cs" />
+    <Compile Include="Physics\BulletGamePhysics.cs" />
+    <Compile Include="Physics\GlobalPhysics.cs" />
+    <Compile Include="Physics\IGamePhysics.cs" />
+    <Compile Include="Physics\MaterialData.cs" />
+    <Compile Include="Physics\NullGamePhysics.cs" />
+    <Compile Include="Physics\PhysicsComponent.cs" />
     <Compile Include="Processes\DelayProcess.cs" />
     <Compile Include="Processes\ProcessCounter.cs" />
     <Compile Include="Processes\ProcessManager.cs" />
@@ -141,7 +159,6 @@
     <Compile Include="Sprites\SpriteBuffer.cs" />
     <Compile Include="Sprites\SpriteComponent.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

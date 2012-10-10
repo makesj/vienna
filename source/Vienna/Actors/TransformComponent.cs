@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using Vienna.Core;
 
 namespace Vienna.Actors
 {
@@ -51,12 +52,15 @@ namespace Vienna.Actors
         public Matrix4 GetTransform()
         {
             if (!Changed) return _transform;
-            var position = Matrix4.CreateTranslation(Position);
-            var scale = Matrix4.Scale(ScaleFactor, ScaleFactor, 1);
-            var rotation = Matrix4.CreateRotationZ(Rotation);
-            _transform = rotation * scale * position;
+            _transform = MatrixHelpers.CalculateMatrix(_transform, Position, ScaleFactor, Rotation);
             Changed = false;
             return _transform;
+        }
+
+        public void SetTransform(Matrix4 worldTransform)
+        {
+            _transform = worldTransform;
+            Changed = false;
         }
     }
 }

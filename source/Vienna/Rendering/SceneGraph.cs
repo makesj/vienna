@@ -5,9 +5,13 @@ using Vienna.Eventing;
 
 namespace Vienna.Rendering
 {
-    public class SceneGraph
+    public static class ActorList
     {
-        public IDictionary<int, Actor> Actors = new Dictionary<int, Actor>();
+        public static IDictionary<int, Actor> Actors = new Dictionary<int, Actor>();        
+    }
+
+    public class SceneGraph
+    {        
         protected Renderer Renderer { get; set; }
         protected ActorFactory ActorFactory { get; set; }
 
@@ -34,7 +38,7 @@ namespace Vienna.Rendering
 
         public void AddActor(Actor actor)
         {
-            Actors.Add(actor.Id, actor);
+            ActorList.Actors.Add(actor.Id, actor);
             actor.Initialize();
 
             if (actor.CanRender)
@@ -50,7 +54,7 @@ namespace Vienna.Rendering
                 Renderer.UnbindActor(actor.RenderComponent.Target, actor);
             }
             actor.Destroy();
-            Actors.Remove(actor.Id);
+            ActorList.Actors.Remove(actor.Id);
         }
 
         public void Render(double time, Camera camera)
@@ -60,7 +64,7 @@ namespace Vienna.Rendering
 
         public void Update(double time)
         {
-            foreach (var actor in Actors)
+            foreach (var actor in ActorList.Actors)
             {
                 actor.Value.Update(time);
             }
@@ -68,19 +72,19 @@ namespace Vienna.Rendering
 
         public void DestroyActor()
         {
-            var actor = Actors.Values.FirstOrDefault();
+            var actor = ActorList.Actors.Values.FirstOrDefault();
             if(actor == null) return;
             RemoveActor(actor);
         }
 
         public void Destroy()
         {
-            var actors = Actors.Values.ToArray();
+            var actors = ActorList.Actors.Values.ToArray();
             foreach (var actor in actors)
             {
                 RemoveActor(actor);
             }
-            Actors.Clear();
+            ActorList.Actors.Clear();
         }
     }
 }

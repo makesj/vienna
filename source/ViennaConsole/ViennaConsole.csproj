@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestExperimentalRendering.cs" />
+    <Compile Include="TestPhysics.cs" />
     <Compile Include="TestSharpScriptProcess.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="AssemblyExtensions.cs" />
@@ -87,6 +88,9 @@
   <ItemGroup>
     <Content Include="Assets\ambient.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\physics.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\waa.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

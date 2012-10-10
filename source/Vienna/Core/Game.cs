@@ -1,5 +1,6 @@
 ﻿using Vienna.Input;
 using Vienna.Rendering;
+using Vienna.Physics;
 
 namespace Vienna.Core
 {
@@ -23,6 +24,8 @@ namespace Vienna.Core
 
         public void Render(double time)
         {
+            GlobalPhysics.Instance.OnUpdate(time);
+            GlobalPhysics.Instance.SyncVisibleScene();
             SceneGraph.Render(time, Camera);
         }
 
@@ -35,5 +38,5 @@ namespace Vienna.Core
         {
             return true;
         }
-    }
+    }    
 }

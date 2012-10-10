@@ -4,6 +4,8 @@ using OpenTK.Graphics;
 using Vienna.Actors;
 using Vienna.Input;
 using Vienna.Rendering;
+using Vienna.Audio;
+using Vienna.Physics;
 
 namespace Vienna.Core
 {
@@ -53,6 +55,23 @@ namespace Vienna.Core
             window = new ViennaWindow(ws, game);
 
             //=======================================================
+            //  Audio
+            //=======================================================
+
+            Console.WriteLine("Creating audio");
+            GlobalAudio.Register(new Audio.OpenAlAudio())
+                .Initialize();
+
+            //=======================================================
+            //  physics
+            //=======================================================
+
+            Console.WriteLine("Creating physics");
+            GlobalPhysics.Register(new BulletGamePhysics())
+                .Initialize();
+            GlobalPhysics.Instance.RenderDiagnostics();
+
+            //=======================================================
             //  Rendering System
             //=======================================================
 
@@ -91,6 +110,7 @@ namespace Vienna.Core
             game.SceneGraph = new SceneGraph(renderer, new ActorFactory());
             game.SceneGraph.Initialize();
 
+           
         }
     }
 }

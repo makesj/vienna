@@ -1,4 +1,5 @@
 ﻿using System;
+using Vienna.Physics;
 
 namespace Vienna.Core
 {
@@ -47,7 +48,7 @@ namespace Vienna.Core
                     throw new Exception("Runtime has been disposed.");
 
                 IsRunning = true;
-                _window.Run(FramesPerSecond, UpdatesPerSecond);
+                _window.Run(FramesPerSecond, UpdatesPerSecond);                
             }
             catch(Exception ex)
             {
@@ -68,6 +69,7 @@ namespace Vienna.Core
             try
             {
                 _unloader.Destroy(ref _window);
+                GlobalPhysics.Instance.Dispose();
             }
             catch (Exception ex)
             {

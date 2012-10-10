@@ -40,6 +40,14 @@ namespace Vienna.Actors
             var spinner = new SpinnerComponent();
             actor.AddComponent(spinner);
 
+            var physics = new Physics.PhysicsComponent();
+            physics._setUp(
+                shape: "box",
+                density: "ebony",
+                material: "Bouncy"
+            );
+            actor.AddComponent(physics);
+
             return actor;
         }
 
