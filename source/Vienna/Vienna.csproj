@@ -90,7 +90,7 @@
     <Compile Include="Eventing\GameEventHandler.cs" />
     <Compile Include="Eventing\IEventData.cs" />
     <Compile Include="Eventing\IEventManager.cs" />
-    <Compile Include="Extensions\LinqXmlExtensions.cs" />
+    <Compile Include="Extensions\XDocumentExtensions.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Maps\Map.cs" />
