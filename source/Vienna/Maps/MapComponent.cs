@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System.Xml.Linq;
+using OpenTK;
 using Vienna.Actors;
 using Vienna.Rendering;
 
@@ -18,6 +19,10 @@ namespace Vienna.Maps
         public Vector2[] Normals { get; private set; }
 
         public Map WorldMap { get; private set; }
+
+        public void Resolved(XElement element)
+        {
+        }
 
         public void Initialize(Actor parent)
         {

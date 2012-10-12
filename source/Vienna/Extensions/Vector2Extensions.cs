@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace Vienna.Rendering
+namespace Vienna.Extensions
 {
     public static class Vector2Extensions
     {

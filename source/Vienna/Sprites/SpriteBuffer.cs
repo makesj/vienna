@@ -1,4 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using Vienna.Extensions;
 using Vienna.Rendering;
 
 namespace Vienna.Sprites

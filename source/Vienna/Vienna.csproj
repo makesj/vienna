@@ -90,6 +90,7 @@
     <Compile Include="Eventing\GameEventHandler.cs" />
     <Compile Include="Eventing\IEventData.cs" />
     <Compile Include="Eventing\IEventManager.cs" />
+    <Compile Include="Extensions\LinqXmlExtensions.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Maps\Map.cs" />
@@ -119,7 +120,7 @@
     <Compile Include="Rendering\Texture.cs" />
     <Compile Include="Rendering\TextureAtlas.cs" />
     <Compile Include="Rendering\Textures.cs" />
-    <Compile Include="Rendering\Vector2Extensions.cs" />
+    <Compile Include="Extensions\Vector2Extensions.cs" />
     <Compile Include="Rendering\Vertex.cs" />
     <Compile Include="Rendering\VertexAttribute.cs" />
     <Compile Include="Resources\CacheStat.cs" />

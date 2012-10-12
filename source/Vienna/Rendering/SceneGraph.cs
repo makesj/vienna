@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Vienna.Actors;
+using Vienna.AI;
 using Vienna.Eventing;
+using Vienna.Sprites;
 
 namespace Vienna.Rendering
 {
@@ -20,8 +23,13 @@ namespace Vienna.Rendering
 
         public void Initialize()
         {
-            AddActor(ActorFactory.Create("worldmap"));
-            
+            ActorFactory.AddComponent<TransformComponent>();
+            ActorFactory.AddComponent<SpriteComponent>();
+            ActorFactory.AddComponent<SpinnerComponent>();
+
+            var xml = File.ReadAllText(Data.WorkingDirectory + @"\assets\actors\animated_square.xml");
+            var a = ActorFactory.CreateFromXml(xml);
+
             for (int i = 0; i < 5; i++)
             {
                 for (int j = 0; j < 5; j++)

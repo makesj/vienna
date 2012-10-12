@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Actor name="AnimatedSquare" resource="actors\animated_square.xml">
+    <TransformComponent>
+        <Position x="0.0" y="0.0" />
+        <ScaleFactor value="1.0" />
+        <Rotation value="0.0" />
+    </TransformComponent>
+</Actor>

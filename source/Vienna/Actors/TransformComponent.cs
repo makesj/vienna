@@ -1,4 +1,6 @@
-﻿using OpenTK;
+﻿using System.Xml.Linq;
+using OpenTK;
+using Vienna.Extensions;
 
 namespace Vienna.Actors
 {
@@ -15,10 +17,21 @@ namespace Vienna.Actors
 
         private Matrix4 _transform;
 
+        public void Resolved(XElement element)
+        {
+            var position = element.GetElementOrThrow("Position");
+            Position = new Vector3(position.AttributesAsVector2("x", "y"));
+
+            var scale = element.GetElementOrThrow("ScaleFactor");
+            ScaleFactor = scale.AttributeAsFloat("value");
+
+            var rotation = element.GetElementOrThrow("Rotation");
+            ScaleFactor = rotation.AttributeAsFloat("value");
+        }
+
         public void Initialize(Actor parent)
         {
             Parent = parent;
-            ScaleFactor = 1.0f;
             Changed = true;
         }
 
