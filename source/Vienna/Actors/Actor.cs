@@ -81,7 +81,7 @@ namespace Vienna.Actors
 
         public override string ToString()
         {
-            return string.Format("{1}({0})", Name, Id);
+            return string.Format("Id = {1}, Name = {0}", Name, Id);
         }
     }
 }

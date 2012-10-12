@@ -1,4 +1,6 @@
-﻿using OpenTK;
+﻿using System.Xml.Linq;
+using OpenTK;
+using Vienna.Extensions;
 
 namespace Vienna.Actors
 {
@@ -8,17 +10,23 @@ namespace Vienna.Actors
         public int Id { get { return ComponentId; } }
         public Actor Parent { get; protected set; }
 
-        public Vector3 Position { get; protected set; }
+        public Vector2 Position { get; protected set; }
         public float ScaleFactor { get; protected set; }
         public float Rotation { get; protected set; }
         public bool Changed { get; set; }
 
         private Matrix4 _transform;
 
+        public void Resolve(XElement el)
+        {
+            Position = el.GetElement("Position").AttributeAsVector2("x", "y");
+            ScaleFactor = el.GetElement("ScaleFactor").AttributeAsFloat("value");
+            Rotation = el.GetElement("Rotation").AttributeAsFloat("value");
+        }
+
         public void Initialize(Actor parent)
         {
             Parent = parent;
-            ScaleFactor = 1.0f;
             Changed = true;
         }
 
@@ -32,7 +40,13 @@ namespace Vienna.Actors
 
         public void Move(float x, float y)
         {
-            Position += new Vector3(x, y, 0);
+            Position += new Vector2(x, y);
+            Changed = true;
+        }
+
+        public void SetPosition(float x, float y)
+        {
+            Position = new Vector2(x, y);
             Changed = true;
         }
 
@@ -51,7 +65,7 @@ namespace Vienna.Actors
         public Matrix4 GetTransform()
         {
             if (!Changed) return _transform;
-            var position = Matrix4.CreateTranslation(Position);
+            var position = Matrix4.CreateTranslation(new Vector3(Position));
             var scale = Matrix4.Scale(ScaleFactor, ScaleFactor, 1);
             var rotation = Matrix4.CreateRotationZ(Rotation);
             _transform = rotation * scale * position;
