@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 using Vienna.Actors;
 
 namespace Vienna.AI
@@ -20,6 +21,9 @@ namespace Vienna.AI
         public int Speed;
         private Random Rand;
 
+        public void Resolve(XElement el)
+        {
+        }
 
         public void Initialize(Actor parent)
         {

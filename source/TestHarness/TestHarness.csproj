@@ -53,6 +53,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Actors\animated_square.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\gl3.h" />
     <Content Include="Assets\Textures\cartoon-tiles.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

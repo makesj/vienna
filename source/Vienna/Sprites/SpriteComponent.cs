@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 using OpenTK;
 using Vienna.Actors;
 using Vienna.Rendering;
@@ -20,6 +21,10 @@ namespace Vienna.Sprites
 
         private double _timer;
         private Random _rand;
+
+        public void Resolve(XElement el)
+        {
+        }
 
         public void Initialize(Actor parent)
         {

@@ -99,7 +99,7 @@ namespace Vienna
         }
 
         private static string _working_directory;
-        private static string WorkingDirectory
+        public static string WorkingDirectory
         {
             get
             {
