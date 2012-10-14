@@ -101,7 +101,6 @@
     <Compile Include="Maps\MapComponent.cs" />
     <Compile Include="Maps\MapSize.cs" />
     <Compile Include="Maps\Tile.cs" />
-    <Compile Include="Maps\TileBuffer.cs" />
     <Compile Include="Eventing\TestEvents.cs" />
     <Compile Include="Processes\DelayProcess.cs" />
     <Compile Include="Processes\ProcessCounter.cs" />
@@ -109,20 +108,20 @@
     <Compile Include="Processes\Process.cs" />
     <Compile Include="Processes\ProcessState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rendering\BatchBuffer.cs" />
-    <Compile Include="Rendering\BatchBufferInstance.cs" />
-    <Compile Include="Rendering\BatchBufferTarget.cs" />
+    <Compile Include="Actors\ActorRepository.cs" />
+    <Compile Include="Rendering\BlendState.cs" />
     <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Rendering\GlHelper.cs" />
     <Compile Include="Rendering\IRenderingComponent.cs" />
-    <Compile Include="Rendering\Renderer.cs" />
-    <Compile Include="Rendering\RenderPass.cs" />
-    <Compile Include="Rendering\SceneGraph.cs" />
+    <Compile Include="Rendering\SceneManager.cs" />
     <Compile Include="Rendering\Shader.cs" />
-    <Compile Include="Rendering\Shaders.cs" />
+    <Compile Include="Rendering\Shaders\DefaultShader.cs" />
+    <Compile Include="Rendering\SpriteBatch.cs" />
+    <Compile Include="Rendering\SpriteBatcher.cs" />
+    <Compile Include="Rendering\SpriteBatchItem.cs" />
+    <Compile Include="Rendering\SpriteSortMode.cs" />
     <Compile Include="Rendering\Texture.cs" />
     <Compile Include="Rendering\TextureAtlas.cs" />
-    <Compile Include="Rendering\Textures.cs" />
     <Compile Include="Extensions\Vector2Extensions.cs" />
     <Compile Include="Rendering\Vertex.cs" />
     <Compile Include="Rendering\VertexAttribute.cs" />
@@ -142,8 +141,7 @@
     <Compile Include="SharpScript\SharpScriptContext.cs" />
     <Compile Include="SharpScript\SharpScriptProcess.cs" />
     <Compile Include="SharpScript\StringMap.cs" />
-    <Compile Include="Sprites\SpriteBuffer.cs" />
-    <Compile Include="Sprites\SpriteComponent.cs" />
+    <Compile Include="Rendering\SpriteComponent.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Vienna.Rendering
 {
-    public class Shader
+    public abstract class Shader
     {
         private readonly Dictionary<string, int> _uniforms = new Dictionary<string, int>();
         
@@ -14,14 +14,15 @@ namespace Vienna.Rendering
         public string VertexShader { get; protected set; }
         public string FragmentShader { get; protected set; }
 
-        public Shader(string name, string vertexShader, string fragmentShader)
+        protected Shader(string name, string vertexShader, string fragmentShader)
         {
             Name = name;
             VertexShader = vertexShader;
             FragmentShader = fragmentShader;
+            Initialize();
         }
 
-        public void Initialize()
+        private void Initialize()
         {
             var vertexShaderSource = File.ReadAllText(VertexShader);
             var fragmentShaderSource = File.ReadAllText(FragmentShader);
@@ -60,15 +61,11 @@ namespace Vienna.Rendering
             GL.UniformMatrix4(GetUniform(name), false, ref matrix);
         }
 
-        public Shader Bind()
-        {
-            GL.UseProgram(Handle);
-            return this;
-        }
-
         public override string ToString()
         {
             return string.Format("{0}:{1}", Name, Handle);
         }
+
+        public abstract VertexAttribute[] GetAttributes(int bufferHandle);
     }
 }
