@@ -43,14 +43,14 @@ namespace Vienna.Maps
             var vertices = restartStrip ? new Vertex[5] : new Vertex[4];
 
             
-            vertices[0] = new Vertex(v[0].X, v[0].Y, v[0].X, v[0].Y, t[0].X, t[0].Y);
-            vertices[1] = new Vertex(v[1].X, v[1].Y, v[1].X, v[1].Y, t[1].X, t[1].Y);
-            vertices[2] = new Vertex(v[2].X, v[2].Y, v[2].X, v[2].Y, t[2].X, t[2].Y);
-            vertices[3] = new Vertex(v[3].X, v[3].Y, v[3].X, v[3].Y, t[3].X, t[3].Y);
+            vertices[0] = new Vertex(v[0].X, v[0].Y, t[0].X, t[0].Y);
+            vertices[1] = new Vertex(v[1].X, v[1].Y, t[1].X, t[1].Y);
+            vertices[2] = new Vertex(v[2].X, v[2].Y, t[2].X, t[2].Y);
+            vertices[3] = new Vertex(v[3].X, v[3].Y, t[3].X, t[3].Y);
 
             if (restartStrip)
             {
-                vertices[4] = new Vertex(v[3].X, v[3].Y, v[3].X, v[3].Y, t[3].X, t[3].Y);
+                vertices[4] = new Vertex(v[3].X, v[3].Y, t[3].X, t[3].Y);
             }
 
             return vertices;

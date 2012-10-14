@@ -6,6 +6,11 @@ namespace Vienna
 {
     public class Data
     {
+        public class Actors
+        {
+            public static string AnimatedSquare = WorkingDirectory + @"\assets\actors\animated_square.xml";
+        }
+
         public class Images
         {
             public static string Donut = WorkingDirectory + @"\Assets\Textures\donut.png";
@@ -60,10 +65,10 @@ namespace Vienna
 
             public static Vertex[] Vertex = new[]
                                                 {
-                                                    new Vertex(-100,-100,   -100,-100,   0,0  ),
-                                                    new Vertex(-100, 100,   -100, 100,   0,1  ),
-                                                    new Vertex( 100,-100,    100,-100,   1,0),
-                                                    new Vertex( 100, 100,    100, 100,   1,1),
+                                                    new Vertex(-100,-100,     0,0  ),
+                                                    new Vertex(-100, 100,     0,1  ),
+                                                    new Vertex( 100,-100,     1,0),
+                                                    new Vertex( 100, 100,     1,1),
                                                 };
         }
 

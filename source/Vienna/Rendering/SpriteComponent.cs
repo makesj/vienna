@@ -2,9 +2,8 @@
 using System.Xml.Linq;
 using OpenTK;
 using Vienna.Actors;
-using Vienna.Rendering;
 
-namespace Vienna.Sprites
+namespace Vienna.Rendering
 {
     public class SpriteComponent : IRenderingComponent
     {
@@ -12,10 +11,11 @@ namespace Vienna.Sprites
         public int Id { get { return ComponentId; } }
         public Actor Parent { get; protected set; }
 
-        public Batch Target { get; private set; }
-        public BatchBuffer Buffer { get; set; }
         public int Frame { get; private set; }
         public bool Changed { get; set; }
+
+        public int Depth { get; set; }
+
         public Vector2[] Vertices { get; private set; }
         public Vector2[] Normals { get; private set; }
 
@@ -29,7 +29,6 @@ namespace Vienna.Sprites
         public void Initialize(Actor parent)
         {
             Changed = true;
-            Target = Batch.Sprite;
             Parent = parent;
             Vertices = Data.Quad2D.Position;
             _rand = new Random(parent.Id);

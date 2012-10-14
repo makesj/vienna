@@ -38,6 +38,14 @@ namespace Vienna.Rendering
             return buffer;
         }
 
+        public static int CreateBuffer(ushort[] data, BufferTarget target = BufferTarget.ArrayBuffer, BufferUsageHint hint = BufferUsageHint.StaticDraw)
+        {
+            var buffer = GenBuffer(target);
+            var size = data.Length * sizeof(ushort);
+            GL.BufferData(target, new IntPtr(size), data, hint);
+            return buffer;
+        }
+
         public static int CreateBuffer(Vertex[] data, BufferTarget target = BufferTarget.ArrayBuffer, BufferUsageHint hint = BufferUsageHint.StaticDraw)
         {
             var buffer = GenBuffer(target);
@@ -72,6 +80,23 @@ namespace Vienna.Rendering
                 GL.BindBuffer(attr.Target, attr.VertexBuffer);
                 GL.VertexAttribPointer(i, attr.Size, attr.PointerType, attr.Normalized, attr.Stride, attr.Offset);
                 GL.BindAttribLocation(attr.ShaderHandle, i, attr.ShaderAttribName);
+            }
+
+            GL.BindVertexArray(0);
+
+            return vertexArrayId;
+        }
+
+        public static int CreateVertexArray2(VertexAttribute[] attributes)
+        {
+            var vertexArrayId = GL.GenVertexArray();
+            GL.BindVertexArray(vertexArrayId);
+
+            for (var i = 0; i < attributes.Length; i++)
+            {
+                var attr = attributes[i];
+                GL.EnableVertexAttribArray(i);
+                GL.VertexAttribPointer(i, attr.Size, attr.PointerType, attr.Normalized, attr.Stride, attr.Offset);
             }
 
             GL.BindVertexArray(0);
