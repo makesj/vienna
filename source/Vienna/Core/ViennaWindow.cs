@@ -18,6 +18,7 @@ namespace Vienna.Core
             settings.ContextFlags)
         {
             Game = game;
+            VSync = settings.EnableVSync ? VSyncMode.On : VSyncMode.Off;
         }
 
         protected override void OnLoad(EventArgs e)

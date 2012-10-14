@@ -39,6 +39,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\library\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Nini">
+      <HintPath>..\..\library\Nini\Nini.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\library\OpenTk\OpenTK.dll</HintPath>

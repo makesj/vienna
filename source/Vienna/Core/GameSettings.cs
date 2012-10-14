@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.IO;
+using System.Text;
+using Nini.Config;
 
 namespace Vienna.Core
 {
@@ -20,38 +22,36 @@ namespace Vienna.Core
             get { return Nested.GameSettings; }
         }
 
-        private readonly IDictionary<string, string> _items = new Dictionary<string, string>();
+        private readonly IniConfigSource _source;
 
         protected GameSettings()
         {
+            _source = new IniConfigSource(WorkingDirectory + @"\Assets\config.ini");
         }
 
-        public void Initialize()
+        public string Get(string section, string name)
         {
-            _items.Clear();
-            _items.Add("resolution", "800,600");
-            _items.Add("wintitle", "OpenTk Sandbox");
-            _items.Add("gldebug", "1");
+            return _source.Configs[section].Get(name);
         }
 
-        public string Get(string name)
+        public string[] GetDelimited(string section, string name)
         {
-            return _items[name];
+            return Get(section, name).Split(',');
         }
 
-        public string[] GetMany(string name)
+        public int GetInt(string section, string name)
         {
-            return _items[name].Split(',');
+            return _source.Configs[section].GetInt(name);
         }
 
-        public int GetInt(string name)
+        public float GetFloat(string section, string name)
         {
-            return int.Parse(Get(name));
+            return _source.Configs[section].GetFloat(name);
         }
 
-        public int[] GetManyInt(string name)
+        public int[] GetDelimitedInt(string section, string name)
         {
-            var items = GetMany(name);
+            var items = GetDelimited(section, name);
             var result = new int[items.Length];
             for (var i = 0; i < items.Length; i++)
             {
@@ -60,9 +60,44 @@ namespace Vienna.Core
             return result;
         }
 
-        public bool GetBool(string name)
+        public bool GetBool(string section, string name)
         {
-            return GetInt(name) == 1;
+            return _source.Configs[section].GetBoolean(name);
+        }
+
+        public void Set(string section, string name, object value)
+        {
+            _source.Configs[section].Set(name, value);          
+        }
+
+        public void Set(string section, string name, object[] values)
+        {
+            var sb = new StringBuilder();
+            for (int i = 0; i < values.Length; i++)
+            {
+                sb.Append(values[i]).Append(",");
+            }
+            _source.Configs[section].Set(name, sb.ToString(0, sb.Length - 1));
+        }
+
+        public void Save()
+        {
+            _source.Save();
+        }
+
+        private string _workingDirectory;
+        public string WorkingDirectory
+        {
+            get
+            {
+                if (_workingDirectory == null)
+                {
+                    var assemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                    _workingDirectory = Path.GetDirectoryName(assemblyLocation);
+                }
+                return _workingDirectory;
+            }
+
         }
     }
 }

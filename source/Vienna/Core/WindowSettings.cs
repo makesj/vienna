@@ -5,6 +5,8 @@ namespace Vienna.Core
 {
     public class WindowSettings
     {
+        public bool EnableVSync { get; set; }
+
         public int Width { get; set; }
 
         public int Height { get; set; }
