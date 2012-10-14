@@ -56,7 +56,6 @@
     <Content Include="Assets\Actors\animated_square.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\gl3.h" />
     <Content Include="Assets\Textures\cartoon-tiles.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -77,6 +76,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\config.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Assets\Scripts\Startup.cscript">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

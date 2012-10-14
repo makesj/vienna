@@ -14,8 +14,6 @@ namespace Vienna.Core
             Console.WriteLine("Vienna Sandbox Test");
             Console.WriteLine("Initializing...");
 
-            GameSettings.Current.Initialize();
-
             var game = new Game();
 
             //=======================================================
@@ -24,15 +22,17 @@ namespace Vienna.Core
 
             Console.WriteLine("Creating host window");
 
-            var title = GameSettings.Current.Get("wintitle");
-            var gldebug = GameSettings.Current.GetBool("gldebug");
-            var resolution = GameSettings.Current.GetManyInt("resolution");
+            var title = GameSettings.Current.Get("Window", "title");
+            var gldebug = GameSettings.Current.GetBool("Window", "gldebug");
+            var resolution = GameSettings.Current.GetDelimitedInt("Window", "resolution");
+            var vsync = GameSettings.Current.GetBool("Window", "enablevsync");
 
             Console.WriteLine("window mode [{0}x{1}]", resolution[0], resolution[1]);
 
             var ws = new WindowSettings();
             ws.Width = resolution[0];
             ws.Height = resolution[1];
+            ws.EnableVSync = vsync;
             ws.Title = title;
             ws.GraphicsMode = GraphicsMode.Default;
             ws.Options = 0;
