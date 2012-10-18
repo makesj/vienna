@@ -10,9 +10,9 @@ namespace Vienna.Core
 
             if (window == null) return;
 
-            if (window.Game.SceneGraph != null)
+            if (window.Game.SceneManager != null)
             {
-                window.Game.SceneGraph.Destroy();
+                window.Game.SceneManager.Destroy();
             }
 
             window.Dispose();

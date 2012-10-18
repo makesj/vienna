@@ -53,19 +53,6 @@ namespace Vienna.Core
             window = new ViennaWindow(ws, game);
 
             //=======================================================
-            //  Rendering System
-            //=======================================================
-
-            Console.WriteLine("Creating rendering system");
-
-            Textures.Instance.Initialize();
-
-            Shaders.Instance.Initialize();
-
-            var renderer = new Renderer();
-            renderer.Initialize(resolution[0], resolution[1]);
-
-            //=======================================================
             //  Input System
             //=======================================================
 
@@ -83,13 +70,13 @@ namespace Vienna.Core
             game.Camera.SetViewport(resolution[0], resolution[1]);
 
             //=======================================================
-            //  Scene Graph
+            //  Scene Manager
             //=======================================================
 
-            Console.WriteLine("Creating scene");
+            Console.WriteLine("Creating scene manager");
 
-            game.SceneGraph = new SceneGraph(renderer, new ActorFactory());
-            game.SceneGraph.Initialize();
+            game.SceneManager = new SceneManager(new ActorFactory());
+            game.SceneManager.Initialize();
 
         }
     }

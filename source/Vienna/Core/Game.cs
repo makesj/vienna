@@ -6,7 +6,7 @@ namespace Vienna.Core
     public class Game
     {
         public InputManager InputManager { get; set; }
-        public SceneGraph SceneGraph { get; set; }
+        public SceneManager SceneManager { get; set; }
         public Camera Camera { get; set; }
 
         public void Load()
@@ -18,12 +18,12 @@ namespace Vienna.Core
         {
             Camera.Transform();
             InputManager.HandleInput(time);
-            SceneGraph.Update(time);
+            SceneManager.Update(time);
         }
 
         public void Render(double time)
         {
-            SceneGraph.Render(time, Camera);
+            SceneManager.Render(time, Camera);
         }
 
         public void Resized(int width, int height)
